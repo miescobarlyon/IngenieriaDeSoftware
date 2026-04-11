@@ -26,17 +26,37 @@ namespace DAL
 
         public override int Eliminar(Usuario obj)
         {
-            throw new NotImplementedException();
+            acceso = new Acceso();
+            acceso.Abrir();
+            List<SqlParameter> parametros = new List<SqlParameter>();
+            parametros.Add(acceso.CrearParameter("@id", obj.Id));
+            int res = acceso.Escribir("EliminarUsuario", parametros);
+            acceso.Cerrar();
+            return res;
         }
 
         public override List<Usuario> Listar()
         {
-            throw new NotImplementedException();
+            acceso = new Acceso();
+            acceso.Abrir();
+            List<BE.Usuario> u = new List<Usuario>();
+            acceso.Cerrar();
+            return 
         }
 
+
+        //acá puse dos parametros cualquiera, porque es una funcion general, tipo no se ni quien va a modificar.
         public override int Modificar(Usuario obj)
         {
-            throw new NotImplementedException();
+            acceso = new Acceso();
+            acceso.Abrir();
+            List<SqlParameter> parametros = new List<SqlParameter>();
+            parametros.Add(acceso.CrearParameter("@id", obj.Id));
+            parametros.Add(acceso.CrearParameter("@nombre", obj.Nombre));
+            parametros.Add(acceso.CrearParameter("@apellido", obj.Apellido)); 
+            int res = acceso.Escribir("ModificarUsuario", parametros);
+            acceso.Cerrar();
+            return res;
         }
     }
 }
