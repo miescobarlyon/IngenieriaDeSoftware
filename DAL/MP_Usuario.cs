@@ -1,6 +1,8 @@
 ﻿using BE;
+using Microsoft.SqlServer.Server;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
@@ -41,7 +43,7 @@ namespace DAL
             acceso.Abrir();
             List<BE.Usuario> u = new List<Usuario>();
             acceso.Cerrar();
-            return 
+            return u;
         }
 
 
@@ -57,6 +59,35 @@ namespace DAL
             int res = acceso.Escribir("ModificarUsuario", parametros);
             acceso.Cerrar();
             return res;
+        }
+
+        public string TraerPass(string user)
+        {
+            acceso = new Acceso();
+            try
+            {
+                acceso.Abrir();
+                List<SqlParameter> parametros = new List<SqlParameter>
+                {
+                    acceso.CrearParameter("@user", user)
+                };
+
+                DataTable dt = acceso.Leer("TraerPass", parametros);
+                
+
+                DataRow dr = dt.Rows[0];
+
+                string pass = dr.IsNull(0) ? null : dr[6].ToString();
+
+
+              
+
+                return pass;
+            }
+            finally
+            {
+                acceso.Cerrar();
+            }
         }
     }
 }
