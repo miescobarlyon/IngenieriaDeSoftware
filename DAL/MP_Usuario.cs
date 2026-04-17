@@ -45,8 +45,6 @@ namespace DAL
             acceso.Cerrar();
             return u;
         }
-
-
         //acá puse dos parametros cualquiera, porque es una funcion general, tipo no se ni quien va a modificar.
         public override int Modificar(Usuario obj)
         {
@@ -61,33 +59,35 @@ namespace DAL
             return res;
         }
 
-        public string TraerPass(string user)
+        public Tuple<string, string> TraerPass(string user)
         {
             acceso = new Acceso();
             try
             {
                 acceso.Abrir();
-                List<SqlParameter> parametros = new List<SqlParameter>
+
+                var parametros = new List<SqlParameter>
                 {
                     acceso.CrearParameter("@user", user)
                 };
 
                 DataTable dt = acceso.Leer("TraerPass", parametros);
-                
+                if (dt == null || dt.Rows.Count == 0)
+                    return null;
 
                 DataRow dr = dt.Rows[0];
 
-                string pass = dr.IsNull(0) ? null : dr[6].ToString();
+                string hash = dr.IsNull(0) ? null : Convert.ToString(dr[0]);
+                string salt = dr.IsNull(1) ? null : Convert.ToString(dr[1]);
 
-
-              
-
-                return pass;
+                return Tuple.Create(hash, salt);
             }
             finally
             {
                 acceso.Cerrar();
             }
         }
+
+        
     }
 }

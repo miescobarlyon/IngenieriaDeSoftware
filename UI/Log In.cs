@@ -27,12 +27,23 @@ namespace UI
         {
             string user = textBox1.Text;
             string password = textBox2.Text;
-            string pass = userservice.TraerPass(user);
-            if (password == pass)
+
+            try
             {
-                MessageBox.Show("Correcto!");
+                bool ok = userservice.Login(user, password);
+                if (!ok)
+                    return;
+
+                var main = new Main();
+
+                main.StartPosition = FormStartPosition.CenterScreen;
+                main.Show();
+                this.Hide();
             }
-            
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.ToString(), "Error al abrir Main");
+            }
         }
     }
 }
