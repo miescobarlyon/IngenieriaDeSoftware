@@ -51,7 +51,7 @@ namespace BE
             set { salt = value; }
         }
 
-        public byte Borrado { get; set; }
+        public int Borrado { get; set; }
         
     }
 }
