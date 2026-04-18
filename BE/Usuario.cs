@@ -43,6 +43,13 @@ namespace BE
             get { return passwordHash; }
             set { passwordHash = value; }
         }
+        private string salt;
+
+        public string Salt
+        {
+            get { return salt; }
+            set { salt = value; }
+        }
 
         public byte Borrado { get; set; }
         

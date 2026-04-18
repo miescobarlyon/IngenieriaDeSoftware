@@ -1,6 +1,8 @@
 ﻿using BE;
+using Microsoft.SqlServer.Server;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
@@ -41,10 +43,8 @@ namespace DAL
             acceso.Abrir();
             List<BE.Usuario> u = new List<Usuario>();
             acceso.Cerrar();
-            return 
+            return u;
         }
-
-
         //acá puse dos parametros cualquiera, porque es una funcion general, tipo no se ni quien va a modificar.
         public override int Modificar(Usuario obj)
         {
@@ -58,5 +58,36 @@ namespace DAL
             acceso.Cerrar();
             return res;
         }
+
+        public Tuple<string, string> TraerPass(string user)
+        {
+            acceso = new Acceso();
+            try
+            {
+                acceso.Abrir();
+
+                var parametros = new List<SqlParameter>
+                {
+                    acceso.CrearParameter("@user", user)
+                };
+
+                DataTable dt = acceso.Leer("TraerPass", parametros);
+                if (dt == null || dt.Rows.Count == 0)
+                    return null;
+
+                DataRow dr = dt.Rows[0];
+
+                string hash = dr.IsNull(0) ? null : Convert.ToString(dr[0]);
+                string salt = dr.IsNull(1) ? null : Convert.ToString(dr[1]);
+
+                return Tuple.Create(hash, salt);
+            }
+            finally
+            {
+                acceso.Cerrar();
+            }
+        }
+
+        
     }
 }
