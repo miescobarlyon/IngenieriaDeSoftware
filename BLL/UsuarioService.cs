@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace BLL
 {
@@ -18,7 +20,46 @@ namespace BLL
             if (string.IsNullOrWhiteSpace(hash) || string.IsNullOrWhiteSpace(salt))
                 return false;
 
-            return hashService.Verify(passwordPlano, salt, hash);
+            bool ok = hashService.Verify(passwordPlano, salt, hash);
+            BE.Usuario usuario = (from u in mapper.Listar()
+                                  where u.User == user
+                                  select u).FirstOrDefault();
+            BE.Bitacora registro = new BE.Bitacora();
+
+            if (ok) 
+            {
+                registro = new BE.Bitacora
+                {
+                    Usuario = usuario,
+                    Fecha = DateTime.Now,
+                    Actividad = $"{usuario.Id} inició sesión.",
+                    Criticidad = BE.EnumCriticidad.BAJA
+
+                };
+                mapper.ReestablecerIntentos(usuario);
+            }
+            else
+            {
+                registro = new BE.Bitacora
+                {
+                    Usuario = usuario,
+                    Fecha = DateTime.Now,
+                    Actividad = $"{usuario.Id} intentó iniciar sesión con contraseña incorrecta.",
+                    Criticidad = BE.EnumCriticidad.MEDIA
+                };
+                mapper.AgregarIntento(usuario);
+            }
+
+            BLL.BitacoraService.Guardar(registro);
+            
+            return ok;
+
+        }
+
+        public static List<BE.Usuario> Listar()
+        {
+            DAL.MP_Usuario mapper = new DAL.MP_Usuario();
+            return mapper.Listar();
         }
     }
 }
