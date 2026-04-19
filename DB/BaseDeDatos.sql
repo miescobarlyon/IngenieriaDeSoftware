@@ -1,6 +1,6 @@
 USE [master]
 GO
-/****** Object:  Database [CAMPO]    Script Date: 18/4/2026 20:51:37 ******/
+/****** Object:  Database [CAMPO]    Script Date: 19/04/2026 11:09:11 ******/
 CREATE DATABASE [CAMPO]
  CONTAINMENT = NONE
  ON  PRIMARY 
@@ -84,7 +84,7 @@ ALTER DATABASE [CAMPO] SET QUERY_STORE (OPERATION_MODE = READ_WRITE, CLEANUP_POL
 GO
 USE [CAMPO]
 GO
-/****** Object:  Table [dbo].[AUDITORIA]    Script Date: 18/4/2026 20:51:37 ******/
+/****** Object:  Table [dbo].[AUDITORIA]    Script Date: 19/04/2026 11:09:11 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -104,7 +104,7 @@ CREATE TABLE [dbo].[AUDITORIA](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[BITACORA]    Script Date: 18/4/2026 20:51:37 ******/
+/****** Object:  Table [dbo].[BITACORA]    Script Date: 19/04/2026 11:09:11 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -121,7 +121,7 @@ CREATE TABLE [dbo].[BITACORA](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[CRITICIDAD]    Script Date: 18/4/2026 20:51:37 ******/
+/****** Object:  Table [dbo].[CRITICIDAD]    Script Date: 19/04/2026 11:09:11 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -135,7 +135,7 @@ CREATE TABLE [dbo].[CRITICIDAD](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[IDIOMA]    Script Date: 18/4/2026 20:51:37 ******/
+/****** Object:  Table [dbo].[IDIOMA]    Script Date: 19/04/2026 11:09:11 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -149,7 +149,7 @@ CREATE TABLE [dbo].[IDIOMA](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[PERFIL]    Script Date: 18/4/2026 20:51:37 ******/
+/****** Object:  Table [dbo].[PERFIL]    Script Date: 19/04/2026 11:09:11 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -163,7 +163,7 @@ CREATE TABLE [dbo].[PERFIL](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[PERFIL_PERMISO]    Script Date: 18/4/2026 20:51:37 ******/
+/****** Object:  Table [dbo].[PERFIL_PERMISO]    Script Date: 19/04/2026 11:09:11 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -178,7 +178,7 @@ CREATE TABLE [dbo].[PERFIL_PERMISO](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[PERMISO]    Script Date: 18/4/2026 20:51:37 ******/
+/****** Object:  Table [dbo].[PERMISO]    Script Date: 19/04/2026 11:09:11 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -193,7 +193,7 @@ CREATE TABLE [dbo].[PERMISO](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[PERMISO_RELACION]    Script Date: 18/4/2026 20:51:37 ******/
+/****** Object:  Table [dbo].[PERMISO_RELACION]    Script Date: 19/04/2026 11:09:11 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -208,7 +208,7 @@ CREATE TABLE [dbo].[PERMISO_RELACION](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[SESION]    Script Date: 18/4/2026 20:51:37 ******/
+/****** Object:  Table [dbo].[SESION]    Script Date: 19/04/2026 11:09:11 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -220,7 +220,7 @@ CREATE TABLE [dbo].[SESION](
 	[FECHA_LOGOUT] [datetime] NULL
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[TRADUCCION]    Script Date: 18/4/2026 20:51:37 ******/
+/****** Object:  Table [dbo].[TRADUCCION]    Script Date: 19/04/2026 11:09:11 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -236,7 +236,7 @@ CREATE TABLE [dbo].[TRADUCCION](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[USUARIO]    Script Date: 18/4/2026 20:51:37 ******/
+/****** Object:  Table [dbo].[USUARIO]    Script Date: 19/04/2026 11:09:11 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -257,7 +257,7 @@ CREATE TABLE [dbo].[USUARIO](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[USUARIO_PERFIL]    Script Date: 18/4/2026 20:51:37 ******/
+/****** Object:  Table [dbo].[USUARIO_PERFIL]    Script Date: 19/04/2026 11:09:11 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -271,6 +271,9 @@ CREATE TABLE [dbo].[USUARIO_PERFIL](
 	[PERFIL_ID] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
+GO
+INSERT [dbo].[USUARIO] ([USUARIO_ID], [NOMBRE], [APELLIDO], [USUARIO], [PASS_HASH], [BORRADO], [SALT], [IDIOMA_ID], [INTENTOS]) VALUES (1, N'Facundo', N'Lopez', N'facu', N'E9/qqASfaFyJdKD7rKLewFAoXgZpJ9/8udsysDFJk0E=', 0, N'ZiwqP6iJqi1jlKqJaiWKeg==', NULL, NULL)
+INSERT [dbo].[USUARIO] ([USUARIO_ID], [NOMBRE], [APELLIDO], [USUARIO], [PASS_HASH], [BORRADO], [SALT], [IDIOMA_ID], [INTENTOS]) VALUES (2, N'Mica', N'Escobar', N'mica', N'Z5E4bn+V3wm5m8LBzNO31a9EiDsaJfSkHh2jfZ8W7hc=', 0, N'G42v/wKtjeCaunMiFi3wxA==', NULL, NULL)
 GO
 ALTER TABLE [dbo].[AUDITORIA]  WITH CHECK ADD  CONSTRAINT [FK_AUDITORIA_USUARIO] FOREIGN KEY([USUARIO_ID])
 REFERENCES [dbo].[USUARIO] ([USUARIO_ID])
@@ -317,7 +320,7 @@ REFERENCES [dbo].[USUARIO] ([USUARIO_ID])
 GO
 ALTER TABLE [dbo].[USUARIO_PERFIL] CHECK CONSTRAINT [FK_USUARIO_PERFIL_USUARIO]
 GO
-/****** Object:  StoredProcedure [dbo].[AgregarIntento]    Script Date: 18/4/2026 20:51:37 ******/
+/****** Object:  StoredProcedure [dbo].[AgregarIntento]    Script Date: 19/04/2026 11:09:11 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -331,7 +334,7 @@ BEGIN
     WHERE USUARIO_ID = @id
 END
 GO
-/****** Object:  StoredProcedure [dbo].[InsertarBitacora]    Script Date: 18/4/2026 20:51:37 ******/
+/****** Object:  StoredProcedure [dbo].[InsertarBitacora]    Script Date: 19/04/2026 11:09:11 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -350,7 +353,7 @@ BEGIN
     VALUES (@id, @usuario, @fecha, @actividad, @criticidad)
 END
 GO
-/****** Object:  StoredProcedure [dbo].[ListarBitacoraFiltrado]    Script Date: 18/4/2026 20:51:37 ******/
+/****** Object:  StoredProcedure [dbo].[ListarBitacoraFiltrado]    Script Date: 19/04/2026 11:09:11 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -374,7 +377,7 @@ BEGIN
     ORDER BY Fecha DESC
 END
 GO
-/****** Object:  StoredProcedure [dbo].[ListarUsuario]    Script Date: 18/4/2026 20:51:37 ******/
+/****** Object:  StoredProcedure [dbo].[ListarUsuario]    Script Date: 19/04/2026 11:09:11 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -385,7 +388,7 @@ BEGIN
 SELECT * FROM USUARIO
 END
 GO
-/****** Object:  StoredProcedure [dbo].[ReestablecerIntentos]    Script Date: 18/4/2026 20:51:37 ******/
+/****** Object:  StoredProcedure [dbo].[ReestablecerIntentos]    Script Date: 19/04/2026 11:09:11 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -399,7 +402,7 @@ BEGIN
     WHERE USUARIO_ID = @id
 END
 GO
-/****** Object:  StoredProcedure [dbo].[TraerPass]    Script Date: 18/4/2026 20:51:37 ******/
+/****** Object:  StoredProcedure [dbo].[TraerPass]    Script Date: 19/04/2026 11:09:11 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -414,6 +417,18 @@ BEGIN
     FROM USUARIO
     WHERE USUARIO = @user
       AND BORRADO = 0;
+END
+GO
+/****** Object:  StoredProcedure [dbo].[TraerUsuario]    Script Date: 19/04/2026 11:09:11 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE proc [dbo].[TraerUsuario] 
+@user varchar(50)
+AS
+BEGIN
+select Usuario_Id,Nombre,Apellido from USUARIO where Usuario = @user
 END
 GO
 USE [master]
