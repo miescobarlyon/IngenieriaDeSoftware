@@ -44,10 +44,10 @@ namespace DAL
             if (usuarioIds != null && usuarioIds.Count > 0)
                 parametros.Add(acceso.CrearParameter("@usuarioIds", string.Join(",", usuarioIds)));
 
-            if (fechaInicio != DateTime.MinValue)
+            if (fechaInicio >= DateTime.MinValue && fechaInicio <= fechaFin)
                 parametros.Add(acceso.CrearParameter("@fechaInicio", fechaInicio));
 
-            if (fechaFin != DateTime.MaxValue)
+            if (fechaFin <= DateTime.MaxValue && fechaFin >= fechaInicio)
                 parametros.Add(acceso.CrearParameter("@fechaFin", fechaFin));
 
             if (actividades != null && actividades.Count > 0)
@@ -58,17 +58,20 @@ namespace DAL
 
             DataTable dt = acceso.Leer("ListarBitacoraFiltrado", parametros);
             List<Bitacora> registros = new List<Bitacora>();
+            List<BE.Usuario> usuarios = new MP_Usuario().Listar(); 
 
             if (dt != null && dt.Rows.Count > 0)
             {
                 foreach (DataRow dr in dt.Rows)
                 {
                     Bitacora b = new Bitacora();
-                    b.Id = Convert.ToInt32(dr["Id"]);
-                    b.Usuario = new Usuario { Id = Convert.ToInt32(dr["UsuarioId"]) };
+                    b.Id = Convert.ToInt32(dr["BITACORA_ID"]);
+                    b.Usuario = (from u in usuarios
+                                 where u.Id == Convert.ToInt32(dr["USUARIO_ID"])
+                                 select u).First();
                     b.Fecha = Convert.ToDateTime(dr["Fecha"]);
                     b.Actividad = Convert.ToString(dr["Actividad"]);
-                    b.Criticidad = (EnumCriticidad)Convert.ToInt32(dr["Criticidad"]);
+                    b.Criticidad = (EnumCriticidad)Convert.ToInt32(dr["CRITICIDAD_ID"]);
 
                     registros.Add(b);
                 }

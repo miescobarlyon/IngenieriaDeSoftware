@@ -16,5 +16,14 @@ namespace UI
         {
             InitializeComponent();
         }
+
+        private void buttonLogs_Click(object sender, EventArgs e)
+        {
+            Bitacora logs = new Bitacora();
+
+            logs.StartPosition = FormStartPosition.CenterScreen;
+            logs.Show();
+            this.Hide();
+        }
     }
 }
