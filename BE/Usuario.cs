@@ -52,6 +52,11 @@ namespace BE
         }
 
         public int Borrado { get; set; }
+
+        public override string ToString()
+        {
+            return user;
+        }
         
     }
 }
