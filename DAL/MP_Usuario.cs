@@ -88,6 +88,27 @@ namespace DAL
             }
         }
 
+        public BE.Usuario TraerUsuario(string user)
+        {
+            acceso = new Acceso();
+            acceso.Abrir();
+            var parametros = new List<SqlParameter>
+                {
+                    acceso.CrearParameter("@user", user)
+                };
+            DataTable dt = acceso.Leer("TraerUsuario", parametros);
+            if (dt == null || dt.Rows.Count == 0)
+                return null;
+            var result = dt.Rows[0];
+             Usuario u = new Usuario();
+            u.User = user;
+            u.Nombre = result["Nombre"].ToString();
+            u.Id = Convert.ToInt32(result["Usuario_Id"]);
+            u.Apellido = result["Apellido"].ToString();
+            acceso.Cerrar();
+            return u;
+        }
+
         
     }
 }
