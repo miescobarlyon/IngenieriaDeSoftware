@@ -41,7 +41,7 @@ namespace UI
                 if (ok != true)
                 {
                    throw new Exception("Los campos son incorrectos!");
-               }
+                }
                 
               
                 var main = new Main();
