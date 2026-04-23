@@ -51,7 +51,12 @@ namespace BE
             set { salt = value; }
         }
 
-        public byte Borrado { get; set; }
+        public int Borrado { get; set; }
+
+        public override string ToString()
+        {
+            return user;
+        }
         
     }
 }

@@ -41,6 +41,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BitacoraService.cs" />
     <Compile Include="SecurityService.cs" />
     <Compile Include="SessionManager.cs" />
     <Compile Include="UsuarioService.cs" />
