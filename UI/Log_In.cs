@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BLL;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -12,7 +13,9 @@ namespace UI
 {
     public partial class Form1 : Form
     {
+        
         BLL.UsuarioService userservice = new BLL.UsuarioService();
+       
         public Form1()
         {
             InitializeComponent();
@@ -31,19 +34,30 @@ namespace UI
             try
             {
                 bool ok = userservice.Login(user, password);
-                if (!ok)
-                    return;
-
+                if (textBox1.Text.Length == 0 || textBox2.Text.Length == 0)
+                {
+                    throw new Exception("Los campos no pueden estar vacíos!");
+                }
+                if (ok != true)
+                {
+                   throw new Exception("Los campos son incorrectos!");
+                }
+                
+              
                 var main = new Main();
-
                 main.StartPosition = FormStartPosition.CenterScreen;
                 main.Show();
                 this.Hide();
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.ToString(), "Error al abrir Main");
+                MessageBox.Show(ex.Message);
             }
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            this.Close();
         }
     }
 }

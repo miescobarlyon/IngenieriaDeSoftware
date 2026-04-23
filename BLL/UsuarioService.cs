@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DAL;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -6,6 +7,7 @@ namespace BLL
 {
     public class UsuarioService
     {
+        BLL.SessionManager SessionManager = BLL.SessionManager.GetInstance();
         private readonly DAL.MP_Usuario mapper = new DAL.MP_Usuario();
         private readonly SecurityService hashService = new SecurityService();
 
@@ -13,20 +15,18 @@ namespace BLL
         {
             Tuple<string, string> credenciales = mapper.TraerPass(user);
             if (credenciales == null) return false;
-
             string hash = credenciales.Item1;
             string salt = credenciales.Item2;
-
             if (string.IsNullOrWhiteSpace(hash) || string.IsNullOrWhiteSpace(salt))
                 return false;
 
             bool ok = hashService.Verify(passwordPlano, salt, hash);
-            BE.Usuario usuario = (from u in mapper.Listar()
-                                  where u.User == user
-                                  select u).FirstOrDefault();
-            BE.Bitacora registro = new BE.Bitacora();
+            BE.Usuario usuario = mapper.TraerUsuario(user);
+            if (usuario == null) return false;
 
-            if (ok) 
+            BE.Bitacora registro;
+
+            if (ok)
             {
                 registro = new BE.Bitacora
                 {
@@ -34,9 +34,9 @@ namespace BLL
                     Fecha = DateTime.Now,
                     Actividad = $"{usuario.Id} inició sesión.",
                     Criticidad = BE.EnumCriticidad.BAJA
-
                 };
                 mapper.ReestablecerIntentos(usuario);
+                SessionManager.Login(usuario);
             }
             else
             {
@@ -51,9 +51,8 @@ namespace BLL
             }
 
             BLL.BitacoraService.Guardar(registro);
-            
-            return ok;
 
+            return ok;
         }
 
         public static List<BE.Usuario> Listar()
