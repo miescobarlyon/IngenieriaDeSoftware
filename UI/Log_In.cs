@@ -23,7 +23,8 @@ namespace UI
 
         private void Form1_Load(object sender, EventArgs e)
         {
-
+            checkBox1.Checked = true;
+            textBox2.UseSystemPasswordChar = true;
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -58,6 +59,18 @@ namespace UI
         private void button2_Click(object sender, EventArgs e)
         {
             this.Close();
+        }
+
+        private void checkBox1_CheckedChanged(object sender, EventArgs e)
+        {
+            if (checkBox1.Checked)
+            {
+                textBox2.UseSystemPasswordChar = true;
+            }
+            else
+            {
+                textBox2.UseSystemPasswordChar = false;
+            }
         }
     }
 }
