@@ -43,6 +43,8 @@
   <ItemGroup>
     <Compile Include="Bitacora.cs" />
     <Compile Include="EnumCriticidad.cs" />
+    <Compile Include="EnumError.cs" />
+    <Compile Include="Error.cs" />
     <Compile Include="Usuario.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

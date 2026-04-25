@@ -13,9 +13,12 @@ namespace UI
 {
     public partial class Bitacora : Form
     {
-        public Bitacora()
+        private Main principal;
+
+        public Bitacora(Main main)
         {
             InitializeComponent();
+            principal = main;
             ConfigurarControles();
             ActualizarRegistros();
         }

@@ -52,6 +52,12 @@
     <Compile Include="Bitacora.Designer.cs">
       <DependentUpon>Bitacora.cs</DependentUpon>
     </Compile>
+    <Compile Include="Inicio.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Inicio.Designer.cs">
+      <DependentUpon>Inicio.cs</DependentUpon>
+    </Compile>
     <Compile Include="Log_In.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -68,6 +74,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Bitacora.resx">
       <DependentUpon>Bitacora.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Inicio.resx">
+      <DependentUpon>Inicio.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Log_In.resx">
       <DependentUpon>Log_In.cs</DependentUpon>

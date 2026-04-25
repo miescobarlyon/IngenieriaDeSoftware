@@ -53,6 +53,14 @@ namespace BE
 
         public int Borrado { get; set; }
 
+        private int bloqueado;
+
+        public int Bloqueado
+        {
+            get { return bloqueado; }
+            set { bloqueado = value; }
+        }
+
         public override string ToString()
         {
             return user;
