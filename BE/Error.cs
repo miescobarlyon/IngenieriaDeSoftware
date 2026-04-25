@@ -1,0 +1,16 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace BE
+{
+    public class Error : EventArgs
+    {
+            public string Mensaje { get; set; }
+            public EnumError Tipo { get; set; }
+            public Exception Exepcion { get; set; }
+ 
+    }
+}

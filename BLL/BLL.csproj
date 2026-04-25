@@ -42,6 +42,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BitacoraService.cs" />
+    <Compile Include="ErrorManagerService.cs" />
     <Compile Include="SecurityService.cs" />
     <Compile Include="SessionManager.cs" />
     <Compile Include="UsuarioService.cs" />
@@ -56,6 +57,9 @@
       <Project>{cd6da3f1-4170-465b-bb44-e1d4a6c47a55}</Project>
       <Name>DAL</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="ClassDiagram1.cd" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
