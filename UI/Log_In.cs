@@ -25,7 +25,11 @@ namespace UI
 
         private void Form1_Load(object sender, EventArgs e)
         {
-
+            checkBox1.Checked = true;
+            if (checkBox1.Checked = true)
+            {
+                textBox2.UseSystemPasswordChar = true;
+            }
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -87,6 +91,18 @@ namespace UI
             }
 
             MessageBox.Show(e.Mensaje, "Notificación", MessageBoxButtons.OK, icon);
+        }
+
+        private void checkBox1_CheckedChanged(object sender, EventArgs e)
+        {
+            if (checkBox1.Checked)
+            {
+                textBox2.UseSystemPasswordChar = true;
+            }
+            else
+            {
+                textBox2.UseSystemPasswordChar = false;
+            }
         }
     }
 }
