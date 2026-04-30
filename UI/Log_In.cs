@@ -26,10 +26,7 @@ namespace UI
         private void Form1_Load(object sender, EventArgs e)
         {
             checkBox1.Checked = true;
-            if (checkBox1.Checked = true)
-            {
-                textBox2.UseSystemPasswordChar = true;
-            }
+            textBox2.UseSystemPasswordChar = true;
         }
 
         private void button1_Click(object sender, EventArgs e)
