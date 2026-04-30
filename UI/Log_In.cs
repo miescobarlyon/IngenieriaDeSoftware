@@ -15,10 +15,12 @@ namespace UI
     {
         
         BLL.UsuarioService userservice = new BLL.UsuarioService();
+        BLL.ErrorManagerService errorManager = ErrorManagerService.GetInstance();
        
         public Form1()
         {
             InitializeComponent();
+            errorManager.OnOcurrioError += ErrorManager_OnOcurrioError;
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -34,31 +36,58 @@ namespace UI
 
             try
             {
-                bool ok = userservice.Login(user, password);
                 if (textBox1.Text.Length == 0 || textBox2.Text.Length == 0)
                 {
-                    throw new Exception("Los campos no pueden estar vacíos!");
+                    errorManager.ManejarError("Por favor, complete todos campos.", BE.EnumError.Advertencia);
+                    return;
                 }
-                if (ok != true)
-                {
-                   throw new Exception("Los campos son incorrectos!");
-                }
+
+                bool ok = userservice.Login(user, password);
                 
-              
-                var main = new Main();
-                main.StartPosition = FormStartPosition.CenterScreen;
-                main.Show();
-                this.Hide();
+                if (ok == true)
+                {
+                    var main = new Main();
+                    main.StartPosition = FormStartPosition.CenterScreen;
+                    main.Show();
+                    this.Hide();
+                }
+        
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                errorManager.ManejarError(ex, BE.EnumError.Error);
             }
         }
 
         private void button2_Click(object sender, EventArgs e)
         {
             this.Close();
+        }
+
+        private void ErrorManager_OnOcurrioError(object sender, BE.Error e)
+        {
+            MessageBoxIcon icon;
+
+            switch (e.Tipo)
+            {
+                case BE.EnumError.Info:
+                    icon = MessageBoxIcon.Information;
+                    break;
+                case BE.EnumError.Advertencia:
+                    icon = MessageBoxIcon.Warning;
+                    break;
+                case BE.EnumError.Error:
+                    icon = MessageBoxIcon.Error;
+                    break;
+                case BE.EnumError.Critico:
+                    icon = MessageBoxIcon.Stop;
+                    break;
+                default:
+                    icon = MessageBoxIcon.None;
+                    break;
+            }
+
+            MessageBox.Show(e.Mensaje, "Notificación", MessageBoxButtons.OK, icon);
         }
 
         private void checkBox1_CheckedChanged(object sender, EventArgs e)

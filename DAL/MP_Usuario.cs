@@ -37,6 +37,17 @@ namespace DAL
             return res;
         }
 
+        public int Bloquear(Usuario obj)
+        {
+            acceso = new Acceso();
+            acceso.Abrir();
+            List<SqlParameter> parametros = new List<SqlParameter>();
+            parametros.Add(acceso.CrearParameter("@id", obj.Id));
+            int res = acceso.Escribir("BloquearUsuario", parametros);
+            acceso.Cerrar();
+            return res;
+        }
+
         public override List<Usuario> Listar()
         {
             List<BE.Usuario> usuarios = new List<BE.Usuario>();
@@ -72,7 +83,8 @@ namespace DAL
             List<SqlParameter> parametros = new List<SqlParameter>();
             parametros.Add(acceso.CrearParameter("@id", obj.Id));
             parametros.Add(acceso.CrearParameter("@nombre", obj.Nombre));
-            parametros.Add(acceso.CrearParameter("@apellido", obj.Apellido)); 
+            parametros.Add(acceso.CrearParameter("@apellido", obj.Apellido));
+            parametros.Add(acceso.CrearParameter("@user", obj.Apellido));
             int res = acceso.Escribir("ModificarUsuario", parametros);
             acceso.Cerrar();
             return res;
@@ -96,6 +108,22 @@ namespace DAL
             List<SqlParameter> parametros = new List<SqlParameter>();
             parametros.Add(acceso.CrearParameter("@id", obj.Id));
             int res = acceso.Escribir("ReestablecerIntentos", parametros);
+            acceso.Cerrar();
+            return res;
+        }
+
+        public int TraerIntentos(Usuario obj)
+        {
+            acceso = new Acceso();
+            acceso.Abrir();
+            List<SqlParameter> parametros = new List<SqlParameter>();
+            parametros.Add(acceso.CrearParameter("@id", obj.Id));
+            DataTable dt = acceso.Leer("TraerIntentos", parametros);
+            int res = 0;
+            if (dt != null && dt.Rows.Count > 0)
+            {
+                res = int.Parse(dt.Rows[0]["Intentos"].ToString());
+            }
             acceso.Cerrar();
             return res;
         }
@@ -148,6 +176,7 @@ namespace DAL
                 u.Nombre = result["Nombre"].ToString();
                 u.Id = Convert.ToInt32(result["Usuario_Id"]);
                 u.Apellido = result["Apellido"].ToString();
+                u.Bloqueado = Convert.ToInt32(result["Bloqueado"]);
                 return u;
             }
             finally
