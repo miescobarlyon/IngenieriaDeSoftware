@@ -49,6 +49,7 @@ namespace UI
             this.Controls.Add(this.labelSaludo);
             this.Name = "Inicio";
             this.Text = "Inicio";
+            this.Tag = "titulo.inicio";
             this.Load += new System.EventHandler(this.Inicio_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
