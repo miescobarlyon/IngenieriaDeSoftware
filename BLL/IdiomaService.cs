@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -25,6 +26,7 @@ namespace BLL
         private BE.Idioma _idiomaActual;
 
         public BE.Idioma IdiomaActual => _idiomaActual;
+        public event EventHandler<BE.Idioma> OnIdiomaAgregado;
 
         public void Suscribir(IIdiomaObserver observer)
         {
@@ -32,7 +34,7 @@ namespace BLL
                 _observers.Add(observer);
 
             if (_idiomaActual != null)
-                observer.CambiarNombre(_idiomaActual);
+                observer.CambiarIdioma(_idiomaActual);
         }
 
         public void Desuscribir(IIdiomaObserver observer)
@@ -48,11 +50,36 @@ namespace BLL
             _tradService.CargarCache(idiomaId);
 
             foreach (var observer in _observers.ToList())
-                observer.CambiarNombre(_idiomaActual);
+                observer.CambiarIdioma(_idiomaActual);
         }
 
         public string Traducir(string clave) => _tradService.Traducir(clave);
 
         public List<BE.Idioma> ListarIdiomas() => new DAL.MP_Idioma().Listar();
+
+        public BE.Idioma AgregarIdioma(string nombre, string codigo)
+        {
+            var idioma = new BE.Idioma { Nombre = nombre, Codigo = codigo };
+            idioma = new DAL.MP_Idioma().AgregarYObtener(idioma);
+            OnIdiomaAgregado?.Invoke(this, idioma);
+            return idioma;
+        }
+
+        public void AgregarTraducciones(List<BE.Traduccion> traducciones)
+        {
+            if (traducciones == null || traducciones.Count == 0) return;
+            var mapper = new DAL.MP_Traduccion();
+            foreach (var t in traducciones)
+            {
+                if (!string.IsNullOrWhiteSpace(t.Texto))
+                    mapper.Agregar(t);
+            }
+            _tradService.InvalidarCache();
+        }
+
+        public List<BE.Traduccion> ListarTraducciones(int idiomaId)
+        {
+            return new DAL.MP_Traduccion().Listar(idiomaId);
+        }
     }
 }

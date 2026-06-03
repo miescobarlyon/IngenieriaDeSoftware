@@ -21,6 +21,8 @@ namespace UI
         {
             InitializeComponent();
             errorManager.OnOcurrioError += ErrorManager_OnOcurrioError;
+            comboBoxIdiomas.DataSource = BLL.IdiomaService.GetInstance().ListarIdiomas(); 
+            comboBoxIdiomas.DisplayMember = "Codigo";
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -100,6 +102,21 @@ namespace UI
             {
                 textBox2.UseSystemPasswordChar = false;
             }
+        }
+
+        private void comboBoxIdiomas_SelectedValueChanged(object sender, EventArgs e)
+        {
+            BE.Idioma idioma = comboBoxIdiomas.SelectedItem as BE.Idioma;
+            if (idioma != null)
+            {
+                BLL.IdiomaService.GetInstance().CambiarIdioma(idioma.Id);
+            }
+        }
+
+        private void Form1_Shown(object sender, EventArgs e)
+        {
+            comboBoxIdiomas.DataSource = BLL.IdiomaService.GetInstance().ListarIdiomas();
+            comboBoxIdiomas.DisplayMember = "Codigo";
         }
     }
 }

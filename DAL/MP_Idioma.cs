@@ -75,5 +75,29 @@ namespace DAL
                 acceso.Cerrar();
             }
         }
+
+        public BE.Idioma AgregarYObtener(BE.Idioma obj)
+        {
+            acceso = new Acceso();
+            try
+            {
+                acceso.Abrir();
+                List<SqlParameter> parametros = new List<SqlParameter>();
+                parametros.Add(acceso.CrearParameter("@nombre", obj.Nombre));
+                parametros.Add(acceso.CrearParameter("@codigo", obj.Codigo));
+
+                DataTable dt = acceso.Leer("InsertarIdioma", parametros);
+
+                if (dt != null && dt.Rows.Count > 0)
+                    obj.Id = Convert.ToInt32(dt.Rows[0]["IDIOMA_ID"]);
+
+                return obj;
+            }
+            finally
+            {
+                acceso.Cerrar();
+            }
+        }
+
     }
 }

@@ -20,11 +20,11 @@ namespace UI
             base.Dispose(disposing);
         }
 
-        public virtual void CambiarNombre(BE.Idioma idioma)
+        public virtual void CambiarIdioma(BE.Idioma idioma)
         {
             if (InvokeRequired)
             {
-                Invoke(new Action(() => CambiarNombre(idioma)));
+                Invoke(new Action(() => CambiarIdioma(idioma)));
                 return;
             }
 

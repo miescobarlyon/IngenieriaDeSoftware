@@ -13,11 +13,25 @@ namespace UI
 {
     public partial class Main : TranslatableForm
     {
-        BLL.SessionManager sm = SessionManager.GetInstance();
+        private BLL.SessionManager sm = SessionManager.GetInstance();
+
+        // ← NEW: stored so we can unsubscribe cleanly in Dispose.
+        private EventHandler<BE.Idioma> _onIdiomaAgregadoHandler;
 
         public Main()
         {
             InitializeComponent();
+
+            // ← NEW: subscribe before building the menu so any language added
+            //   between startup and menu build is not missed (edge case).
+            _onIdiomaAgregadoHandler = (sender, idioma) =>
+            {
+                // Always marshal back to the UI thread.
+                if (InvokeRequired) { Invoke(new Action(CargarMenuIdiomas)); return; }
+                CargarMenuIdiomas();
+            };
+            BLL.IdiomaService.GetInstance().OnIdiomaAgregado += _onIdiomaAgregadoHandler;
+
             CargarMenuIdiomas();
             LoadForm(new Inicio(this));
 
@@ -25,6 +39,10 @@ namespace UI
                 BLL.IdiomaService.GetInstance().CambiarIdioma(1);
         }
 
+        /// <summary>
+        /// Embeds a child form inside panelContenido.
+        /// Disposes the previous form first to release its observer subscription.
+        /// </summary>
         public void LoadForm(Form form)
         {
             foreach (Control c in panelContenido.Controls)
@@ -40,33 +58,57 @@ namespace UI
 
         private void CargarMenuIdiomas()
         {
-            List<BE.Idioma> idiomas = BLL.IdiomaService.GetInstance().ListarIdiomas();
-            if (idiomas == null || idiomas.Count == 0) return;
+            var existing = menuStrip1.Items
+                .OfType<ToolStripMenuItem>()
+                .FirstOrDefault(i => (i.Tag as string) == "menu.idioma");
+            if (existing != null)
+                menuStrip1.Items.Remove(existing);
 
-            ToolStripMenuItem idiomaMenu = new ToolStripMenuItem();
+            var svc = BLL.IdiomaService.GetInstance();
+            var idiomas = svc.ListarIdiomas();
+
+            var idiomaMenu = new ToolStripMenuItem();
             idiomaMenu.Tag = "menu.idioma";
+            idiomaMenu.Text = svc.Traducir("menu.idioma");
 
-            foreach (BE.Idioma idioma in idiomas)
+            foreach (var idioma in idiomas)
             {
-                int capturedId = idioma.Id;
-                ToolStripMenuItem item = new ToolStripMenuItem(idioma.Nombre);
-                item.Click += (s, e) =>
-                    BLL.IdiomaService.GetInstance().CambiarIdioma(capturedId);
+                var capturedId = idioma.Id;
+                var item = new ToolStripMenuItem(idioma.Nombre);
+                item.Click += (s, e) => svc.CambiarIdioma(capturedId);
                 idiomaMenu.DropDownItems.Add(item);
             }
 
+            idiomaMenu.DropDownItems.Add(new ToolStripSeparator());
+            var agregarItem = new ToolStripMenuItem();
+            agregarItem.Tag = "menu.agregarIdioma";
+            agregarItem.Text = svc.Traducir("menu.agregarIdioma");
+            agregarItem.Click += (s, e) => LoadForm(new AgregarIdioma(this));
+            idiomaMenu.DropDownItems.Add(agregarItem);
+
             menuStrip1.Items.Add(idiomaMenu);
         }
+
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                components?.Dispose();
+                BLL.IdiomaService.GetInstance().OnIdiomaAgregado -=
+                    _onIdiomaAgregadoHandler;
+            }
+            base.Dispose(disposing); 
+        }
+
+        // ── Menu event handlers ────────────────────────────────────────────────
 
         private void cerrarSesiónToolStripMenuItem_Click(object sender, EventArgs e)
         {
             sm.Logout();
 
-            Form1 log = Application.OpenForms.OfType<Form1>().FirstOrDefault();
+            var log = Application.OpenForms.OfType<Form1>().FirstOrDefault();
             if (log == null)
-            {
                 log = new Form1();
-            }
 
             log.Show();
             log.BringToFront();
@@ -82,5 +124,6 @@ namespace UI
         {
             LoadForm(new Inicio(this));
         }
+    
     }
 }
