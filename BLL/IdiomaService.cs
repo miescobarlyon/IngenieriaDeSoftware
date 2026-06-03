@@ -32,7 +32,7 @@ namespace BLL
                 _observers.Add(observer);
 
             if (_idiomaActual != null)
-                observer.OnIdiomaCambiado(_idiomaActual);
+                observer.CambiarNombre(_idiomaActual);
         }
 
         public void Desuscribir(IIdiomaObserver observer)
@@ -48,7 +48,7 @@ namespace BLL
             _tradService.CargarCache(idiomaId);
 
             foreach (var observer in _observers.ToList())
-                observer.OnIdiomaCambiado(_idiomaActual);
+                observer.CambiarNombre(_idiomaActual);
         }
 
         public string Traducir(string clave) => _tradService.Traducir(clave);

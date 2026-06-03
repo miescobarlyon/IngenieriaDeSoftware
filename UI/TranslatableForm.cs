@@ -3,7 +3,7 @@ using System.Windows.Forms;
 
 namespace UI
 {
-    public abstract class TranslatableForm : Form, BLL.IIdiomaObserver
+    public class TranslatableForm : Form, BLL.IIdiomaObserver
     {
         private readonly BLL.IdiomaService _service = BLL.IdiomaService.GetInstance();
 
@@ -20,11 +20,11 @@ namespace UI
             base.Dispose(disposing);
         }
 
-        public virtual void OnIdiomaCambiado(BE.Idioma idioma)
+        public virtual void CambiarNombre(BE.Idioma idioma)
         {
             if (InvokeRequired)
             {
-                Invoke(new Action(() => OnIdiomaCambiado(idioma)));
+                Invoke(new Action(() => CambiarNombre(idioma)));
                 return;
             }
 

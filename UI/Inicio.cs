@@ -18,9 +18,9 @@ namespace UI
             ActualizarSaludo();
         }
 
-        public override void OnIdiomaCambiado(BE.Idioma idioma)
+        public override void CambiarNombre(BE.Idioma idioma)
         {
-            base.OnIdiomaCambiado(idioma);
+            base.CambiarNombre(idioma);
             ActualizarSaludo();
         }
 

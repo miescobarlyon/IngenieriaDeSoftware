@@ -2,6 +2,6 @@ namespace BLL
 {
     public interface IIdiomaObserver
     {
-        void OnIdiomaCambiado(BE.Idioma idioma);
+        void CambiarNombre(BE.Idioma idioma);
     }
 }
