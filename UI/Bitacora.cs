@@ -11,7 +11,7 @@ using System.Windows.Forms;
 
 namespace UI
 {
-    public partial class Bitacora : Form
+    public partial class Bitacora : TranslatableForm
     {
         private Main principal;
 

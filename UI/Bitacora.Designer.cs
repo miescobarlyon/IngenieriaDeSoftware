@@ -60,6 +60,7 @@
             this.label1.Size = new System.Drawing.Size(34, 13);
             this.label1.TabIndex = 1;
             this.label1.Text = "Filtros";
+            this.label1.Tag = "lbl.filtros";
             // 
             // label2
             // 
@@ -69,6 +70,7 @@
             this.label2.Size = new System.Drawing.Size(48, 13);
             this.label2.TabIndex = 3;
             this.label2.Text = "Usuarios";
+            this.label2.Tag = "lbl.usuarios";
             // 
             // label3
             // 
@@ -78,6 +80,7 @@
             this.label3.Size = new System.Drawing.Size(38, 13);
             this.label3.TabIndex = 4;
             this.label3.Text = "Desde";
+            this.label3.Tag = "lbl.desde";
             // 
             // dateTimePickerDesde
             // 
@@ -109,6 +112,7 @@
             this.label4.Size = new System.Drawing.Size(35, 13);
             this.label4.TabIndex = 6;
             this.label4.Text = "Hasta";
+            this.label4.Tag = "lbl.hasta";
             // 
             // label5
             // 
@@ -118,6 +122,7 @@
             this.label5.Size = new System.Drawing.Size(51, 13);
             this.label5.TabIndex = 9;
             this.label5.Text = "Actividad";
+            this.label5.Tag = "lbl.actividad";
             this.label5.Click += new System.EventHandler(this.label5_Click);
             // 
             // label6
@@ -128,6 +133,7 @@
             this.label6.Size = new System.Drawing.Size(50, 13);
             this.label6.TabIndex = 11;
             this.label6.Text = "Criticidad";
+            this.label6.Tag = "lbl.criticidad";
             // 
             // label7
             // 
@@ -137,6 +143,7 @@
             this.label7.Size = new System.Drawing.Size(51, 13);
             this.label7.TabIndex = 12;
             this.label7.Text = "Registros";
+            this.label7.Tag = "lbl.registros";
             // 
             // listBoxUsuarios
             // 
@@ -188,6 +195,7 @@
             this.Controls.Add(this.dataGridViewRegistros);
             this.Name = "Bitacora";
             this.Text = "Bitacora";
+            this.Tag = "titulo.bitacora";
             this.Load += new System.EventHandler(this.Bitacora_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewRegistros)).EndInit();
             this.ResumeLayout(false);

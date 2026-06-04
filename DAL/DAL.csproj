@@ -44,6 +44,8 @@
     <Compile Include="Acceso.cs" />
     <Compile Include="MP_Bitacora.cs" />
     <Compile Include="MAPPER.cs" />
+    <Compile Include="MP_Idioma.cs" />
+    <Compile Include="MP_Traduccion.cs" />
     <Compile Include="MP_Usuario.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
