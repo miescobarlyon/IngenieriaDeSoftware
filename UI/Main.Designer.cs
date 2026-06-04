@@ -47,16 +47,16 @@
             // 
             this.inicioToolStripMenuItem.Name = "inicioToolStripMenuItem";
             this.inicioToolStripMenuItem.Size = new System.Drawing.Size(70, 30);
-            this.inicioToolStripMenuItem.Text = "Inicio";
             this.inicioToolStripMenuItem.Tag = "menu.inicio";
+            this.inicioToolStripMenuItem.Text = "Inicio";
             this.inicioToolStripMenuItem.Click += new System.EventHandler(this.dashboardToolStripMenuItem_Click);
             // 
             // bitácoraToolStripMenuItem
             // 
             this.bitácoraToolStripMenuItem.Name = "bitácoraToolStripMenuItem";
             this.bitácoraToolStripMenuItem.Size = new System.Drawing.Size(91, 30);
-            this.bitácoraToolStripMenuItem.Text = "Bitácora";
             this.bitácoraToolStripMenuItem.Tag = "menu.bitacora";
+            this.bitácoraToolStripMenuItem.Text = "Bitácora";
             this.bitácoraToolStripMenuItem.Click += new System.EventHandler(this.bitácoraToolStripMenuItem_Click);
             // 
             // sesionToolStripMenuItem
@@ -65,15 +65,15 @@
             this.cerrarSesiónToolStripMenuItem});
             this.sesionToolStripMenuItem.Name = "sesionToolStripMenuItem";
             this.sesionToolStripMenuItem.Size = new System.Drawing.Size(80, 30);
-            this.sesionToolStripMenuItem.Text = "Sesión";
             this.sesionToolStripMenuItem.Tag = "menu.sesion";
+            this.sesionToolStripMenuItem.Text = "Sesión";
             // 
             // cerrarSesiónToolStripMenuItem
             // 
             this.cerrarSesiónToolStripMenuItem.Name = "cerrarSesiónToolStripMenuItem";
             this.cerrarSesiónToolStripMenuItem.Size = new System.Drawing.Size(270, 34);
-            this.cerrarSesiónToolStripMenuItem.Text = "Cerrar Sesión";
             this.cerrarSesiónToolStripMenuItem.Tag = "menu.cerrarSesion";
+            this.cerrarSesiónToolStripMenuItem.Text = "Cerrar Sesión";
             this.cerrarSesiónToolStripMenuItem.Click += new System.EventHandler(this.cerrarSesiónToolStripMenuItem_Click);
             // 
             // panelContenido
@@ -96,8 +96,8 @@
             this.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.Name = "Main";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "Sistema Principal";
             this.Tag = "titulo.main";
+            this.Text = "Sistema Principal";
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
             this.ResumeLayout(false);
