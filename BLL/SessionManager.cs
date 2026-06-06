@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BE;
+using System;
 
 namespace BLL
 {
@@ -8,6 +9,7 @@ namespace BLL
         private static readonly object _padlock = new object();
 
         private BE.Usuario _usuario;
+        private ComponentePermiso _permisos;
 
         private SessionManager() { }
 
@@ -17,27 +19,28 @@ namespace BLL
             {
                 if (_instance == null)
                     _instance = new SessionManager();
-
                 return _instance;
             }
         }
 
-        public BE.Usuario GetUsuario()
-        {
-            return _usuario;
-        }
+        public BE.Usuario GetUsuario() => _usuario;
 
         public void Login(BE.Usuario u)
         {
             if (u == null) throw new ArgumentNullException(nameof(u));
             _usuario = u;
+            _permisos = new GestorPermisos().ObtenerPermisosDeUsuario(u.Id);
         }
 
         public void Logout()
         {
             _usuario = null;
+            _permisos = null;
         }
 
-      
+        public bool TienePermiso(string codigo)
+        {
+            return _permisos != null && _permisos.Tiene(codigo);
+        }
     }
 }

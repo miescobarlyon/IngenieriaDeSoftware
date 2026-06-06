@@ -26,27 +26,29 @@
             this.sesionToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.cerrarSesiónToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.panelContenido = new System.Windows.Forms.Panel();
+            this.gestionRolesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // menuStrip1
             // 
-            this.menuStrip1.GripMargin = new System.Windows.Forms.Padding(2, 2, 0, 2);
             this.menuStrip1.ImageScalingSize = new System.Drawing.Size(24, 24);
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.inicioToolStripMenuItem,
             this.bitácoraToolStripMenuItem,
-            this.sesionToolStripMenuItem});
+            this.sesionToolStripMenuItem,
+            this.gestionRolesToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(1500, 36);
+            this.menuStrip1.Padding = new System.Windows.Forms.Padding(4, 1, 0, 1);
+            this.menuStrip1.Size = new System.Drawing.Size(1000, 24);
             this.menuStrip1.TabIndex = 0;
             this.menuStrip1.Text = "menuStrip1";
             // 
             // inicioToolStripMenuItem
             // 
             this.inicioToolStripMenuItem.Name = "inicioToolStripMenuItem";
-            this.inicioToolStripMenuItem.Size = new System.Drawing.Size(70, 30);
+            this.inicioToolStripMenuItem.Size = new System.Drawing.Size(48, 22);
             this.inicioToolStripMenuItem.Tag = "menu.inicio";
             this.inicioToolStripMenuItem.Text = "Inicio";
             this.inicioToolStripMenuItem.Click += new System.EventHandler(this.dashboardToolStripMenuItem_Click);
@@ -54,7 +56,7 @@
             // bitácoraToolStripMenuItem
             // 
             this.bitácoraToolStripMenuItem.Name = "bitácoraToolStripMenuItem";
-            this.bitácoraToolStripMenuItem.Size = new System.Drawing.Size(91, 30);
+            this.bitácoraToolStripMenuItem.Size = new System.Drawing.Size(62, 22);
             this.bitácoraToolStripMenuItem.Tag = "menu.bitacora";
             this.bitácoraToolStripMenuItem.Text = "Bitácora";
             this.bitácoraToolStripMenuItem.Click += new System.EventHandler(this.bitácoraToolStripMenuItem_Click);
@@ -64,14 +66,14 @@
             this.sesionToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.cerrarSesiónToolStripMenuItem});
             this.sesionToolStripMenuItem.Name = "sesionToolStripMenuItem";
-            this.sesionToolStripMenuItem.Size = new System.Drawing.Size(80, 30);
+            this.sesionToolStripMenuItem.Size = new System.Drawing.Size(53, 22);
             this.sesionToolStripMenuItem.Tag = "menu.sesion";
             this.sesionToolStripMenuItem.Text = "Sesión";
             // 
             // cerrarSesiónToolStripMenuItem
             // 
             this.cerrarSesiónToolStripMenuItem.Name = "cerrarSesiónToolStripMenuItem";
-            this.cerrarSesiónToolStripMenuItem.Size = new System.Drawing.Size(270, 34);
+            this.cerrarSesiónToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.cerrarSesiónToolStripMenuItem.Tag = "menu.cerrarSesion";
             this.cerrarSesiónToolStripMenuItem.Text = "Cerrar Sesión";
             this.cerrarSesiónToolStripMenuItem.Click += new System.EventHandler(this.cerrarSesiónToolStripMenuItem_Click);
@@ -79,21 +81,26 @@
             // panelContenido
             // 
             this.panelContenido.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panelContenido.Location = new System.Drawing.Point(0, 36);
-            this.panelContenido.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.panelContenido.Location = new System.Drawing.Point(0, 24);
             this.panelContenido.Name = "panelContenido";
-            this.panelContenido.Size = new System.Drawing.Size(1500, 887);
+            this.panelContenido.Size = new System.Drawing.Size(1000, 576);
             this.panelContenido.TabIndex = 1;
+            // 
+            // gestionRolesToolStripMenuItem
+            // 
+            this.gestionRolesToolStripMenuItem.Name = "gestionRolesToolStripMenuItem";
+            this.gestionRolesToolStripMenuItem.Size = new System.Drawing.Size(107, 22);
+            this.gestionRolesToolStripMenuItem.Text = "Gestion De Roles";
+            this.gestionRolesToolStripMenuItem.Click += new System.EventHandler(this.gestionRolesToolStripMenuItem_Click);
             // 
             // Main
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1500, 923);
+            this.ClientSize = new System.Drawing.Size(1000, 600);
             this.Controls.Add(this.panelContenido);
             this.Controls.Add(this.menuStrip1);
             this.MainMenuStrip = this.menuStrip1;
-            this.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.Name = "Main";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Tag = "titulo.main";
@@ -113,5 +120,6 @@
         private System.Windows.Forms.ToolStripMenuItem sesionToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem cerrarSesiónToolStripMenuItem;
         public System.Windows.Forms.Panel panelContenido;
+        private System.Windows.Forms.ToolStripMenuItem gestionRolesToolStripMenuItem;
     }
 }

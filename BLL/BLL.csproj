@@ -43,6 +43,7 @@
   <ItemGroup>
     <Compile Include="BitacoraService.cs" />
     <Compile Include="ErrorManagerService.cs" />
+    <Compile Include="GestorPermisos.cs" />
     <Compile Include="IdiomaService.cs" />
     <Compile Include="IIdiomaObserver.cs" />
     <Compile Include="SecurityService.cs" />
