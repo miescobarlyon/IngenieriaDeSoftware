@@ -45,6 +45,7 @@
     <Compile Include="EnumCriticidad.cs" />
     <Compile Include="EnumError.cs" />
     <Compile Include="Error.cs" />
+    <Compile Include="HistorialUsuario.cs" />
     <Compile Include="Idioma.cs" />
     <Compile Include="Traduccion.cs" />
     <Compile Include="Usuario.cs" />

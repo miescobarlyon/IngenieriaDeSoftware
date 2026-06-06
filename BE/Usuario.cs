@@ -61,6 +61,8 @@ namespace BE
             set { bloqueado = value; }
         }
 
+        public string Estado => Bloqueado == 1 ? "Bloqueado" : "Activo";
+
         public override string ToString()
         {
             return user;

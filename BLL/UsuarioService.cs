@@ -57,7 +57,7 @@ namespace BLL
                         {
                             int intentos = mapper.TraerIntentos(usuario);
                             int intentosRestantes = 3 - (intentos + 1);
-                            
+
                             registro = new BE.Bitacora
                             {
                                 Usuario = usuario,
@@ -66,14 +66,14 @@ namespace BLL
                                 Criticidad = BE.EnumCriticidad.MEDIA
                             };
                             mapper.AgregarIntento(usuario);
-                            
+
                             if (intentosRestantes > 0)
                             {
                                 ErrorManager.ManejarError(
-                                    $"Contraseña incorrecta. Te quedan {intentosRestantes} intentos.", 
+                                    $"Contraseña incorrecta. Te quedan {intentosRestantes} intentos.",
                                     BE.EnumError.Advertencia);
                             }
-                            
+
                             Bloquear(usuario);
                         }
 
@@ -118,11 +118,69 @@ namespace BLL
                 };
                 BLL.BitacoraService.Guardar(registro);
                 mapper.Bloquear(usuario);
-                
+
                 ErrorManagerService.GetInstance().ManejarError(
-                    "Tu usuario ha sido bloqueado por exceso de intentos fallidos.", 
+                    "Tu usuario ha sido bloqueado por exceso de intentos fallidos.",
                     BE.EnumError.Critico);
             }
+        }
+
+        public void Guardar(BE.Usuario usuario)
+        {
+            DAL.MP_Usuario mapper = new DAL.MP_Usuario();
+
+
+            if (usuario.Id == 0)
+            {
+                mapper.Agregar(usuario, SessionManager.GetUsuario());
+                BitacoraService.Guardar(new BE.Bitacora
+                {
+                    Usuario = usuario,
+                    Fecha = DateTime.Now,
+                    Actividad = $"{usuario.Id} fue creado.",
+                    Criticidad = BE.EnumCriticidad.BAJA
+                });
+            }
+            else
+            {
+                mapper.Modificar(usuario, SessionManager.GetUsuario());
+                BitacoraService.Guardar(new BE.Bitacora
+                {
+                    Usuario = usuario,
+                    Fecha = DateTime.Now,
+                    Actividad = $"{usuario.Id} fue editado.",
+                    Criticidad = BE.EnumCriticidad.MEDIA
+                });
+            }
+        }
+
+        public BE.Usuario HashearPassword(BE.Usuario usuario, string passwordPlano)
+        {
+            var sec = new SecurityService();
+            usuario.Salt = sec.GenerarSalt();
+            usuario.PasswordHash = sec.HashPassword(passwordPlano, usuario.Salt);
+            return usuario;
+        }
+
+        public static void Desbloquear(BE.Usuario usuario)
+        {
+            new DAL.MP_Usuario().Desbloquear(usuario);
+            BitacoraService.Guardar(new BE.Bitacora
+            {
+                Usuario = usuario,
+                Fecha = DateTime.Now,
+                Actividad = $"{usuario.Id} fue desbloqueado por el administrador.",
+                Criticidad = BE.EnumCriticidad.MEDIA
+            });
+        }
+
+        public static List<BE.Usuario> ListarActivos()
+        {
+            return Listar()
+                .Where(u => u.Borrado == 0)
+                .OrderBy(u => u.Apellido)
+                .ThenBy(u => u.Nombre)
+                .ToList();
         }
     }
 }

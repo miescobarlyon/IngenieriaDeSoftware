@@ -124,6 +124,10 @@ namespace UI
         {
             LoadForm(new Inicio(this));
         }
-    
+
+        private void usuariosToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            LoadForm(new GestionUsuarios(this));
+        }
     }
 }
