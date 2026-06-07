@@ -56,21 +56,21 @@
             // 
             // txtCodigoRol
             // 
-            this.txtCodigoRol.Location = new System.Drawing.Point(537, 124);
+            this.txtCodigoRol.Location = new System.Drawing.Point(554, 122);
             this.txtCodigoRol.Name = "txtCodigoRol";
             this.txtCodigoRol.Size = new System.Drawing.Size(100, 20);
             this.txtCodigoRol.TabIndex = 1;
             // 
             // txtNombreRol
             // 
-            this.txtNombreRol.Location = new System.Drawing.Point(537, 173);
+            this.txtNombreRol.Location = new System.Drawing.Point(554, 171);
             this.txtNombreRol.Name = "txtNombreRol";
             this.txtNombreRol.Size = new System.Drawing.Size(100, 20);
             this.txtNombreRol.TabIndex = 2;
             // 
             // btnCrearRol
             // 
-            this.btnCrearRol.Location = new System.Drawing.Point(448, 257);
+            this.btnCrearRol.Location = new System.Drawing.Point(465, 255);
             this.btnCrearRol.Name = "btnCrearRol";
             this.btnCrearRol.Size = new System.Drawing.Size(75, 23);
             this.btnCrearRol.TabIndex = 3;
@@ -81,7 +81,7 @@
             // 
             // btnEliminarRol
             // 
-            this.btnEliminarRol.Location = new System.Drawing.Point(562, 257);
+            this.btnEliminarRol.Location = new System.Drawing.Point(579, 255);
             this.btnEliminarRol.Name = "btnEliminarRol";
             this.btnEliminarRol.Size = new System.Drawing.Size(75, 23);
             this.btnEliminarRol.TabIndex = 4;
@@ -100,7 +100,7 @@
             // 
             // btnGuardarPermisos
             // 
-            this.btnGuardarPermisos.Location = new System.Drawing.Point(448, 440);
+            this.btnGuardarPermisos.Location = new System.Drawing.Point(426, 439);
             this.btnGuardarPermisos.Name = "btnGuardarPermisos";
             this.btnGuardarPermisos.Size = new System.Drawing.Size(75, 23);
             this.btnGuardarPermisos.TabIndex = 6;
@@ -172,7 +172,7 @@
             // lblCodigoRol
             // 
             this.lblCodigoRol.AutoSize = true;
-            this.lblCodigoRol.Location = new System.Drawing.Point(406, 127);
+            this.lblCodigoRol.Location = new System.Drawing.Point(423, 125);
             this.lblCodigoRol.Name = "lblCodigoRol";
             this.lblCodigoRol.Size = new System.Drawing.Size(35, 13);
             this.lblCodigoRol.TabIndex = 13;
@@ -182,7 +182,7 @@
             // lblNombreRol
             // 
             this.lblNombreRol.AutoSize = true;
-            this.lblNombreRol.Location = new System.Drawing.Point(406, 180);
+            this.lblNombreRol.Location = new System.Drawing.Point(423, 178);
             this.lblNombreRol.Name = "lblNombreRol";
             this.lblNombreRol.Size = new System.Drawing.Size(35, 13);
             this.lblNombreRol.TabIndex = 14;

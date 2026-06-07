@@ -61,6 +61,14 @@ namespace BE
             set { bloqueado = value; }
         }
 
+        private string dvh;
+
+        public string Dvh
+        {
+            get { return dvh; }
+            set { dvh = value; }
+        }
+
         public override string ToString()
         {
             return user;

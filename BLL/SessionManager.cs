@@ -42,5 +42,18 @@ namespace BLL
         {
             return _permisos != null && _permisos.Tiene(codigo);
         }
+        private BE.ResultadoVerificacion _verificacionDV;
+
+        public void SetVerificacionDV(BE.ResultadoVerificacion r)
+        {
+            _verificacionDV = r;
+        }
+
+        public BE.ResultadoVerificacion GetVerificacionDV()
+        {
+            return _verificacionDV;
+        }
+
+        public bool DbCorrupta => _verificacionDV != null && !_verificacionDV.EsValido;
     }
 }

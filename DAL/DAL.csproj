@@ -45,6 +45,7 @@
     <Compile Include="MP_Bitacora.cs" />
     <Compile Include="MAPPER.cs" />
     <Compile Include="MP_ComponentePermiso.cs" />
+    <Compile Include="MP_DigitoVerificador.cs" />
     <Compile Include="MP_Idioma.cs" />
     <Compile Include="MP_Traduccion.cs" />
     <Compile Include="MP_Usuario.cs" />

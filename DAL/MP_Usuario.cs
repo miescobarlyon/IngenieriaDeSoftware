@@ -69,6 +69,8 @@ namespace DAL
                 usuario.PasswordHash = row["pass_hash"].ToString();
                 usuario.Salt = row["salt"].ToString();
                 usuario.Borrado = int.Parse(row["borrado"].ToString());
+                usuario.Bloqueado = row["bloqueado"] == DBNull.Value ? 0 : int.Parse(row["bloqueado"].ToString());
+                usuario.Dvh = row["dvh"] == DBNull.Value ? "" : row["dvh"].ToString();
 
                 usuarios.Add(usuario);
             }

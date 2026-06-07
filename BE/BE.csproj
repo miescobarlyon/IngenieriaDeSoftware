@@ -49,6 +49,7 @@
     <Compile Include="GrupoPermiso.cs" />
     <Compile Include="Idioma.cs" />
     <Compile Include="PermisoSimple.cs" />
+    <Compile Include="ResultadoVerificacion.cs" />
     <Compile Include="Traduccion.cs" />
     <Compile Include="Usuario.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
