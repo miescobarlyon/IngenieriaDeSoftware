@@ -41,34 +41,36 @@
             this.lblUsuarios = new System.Windows.Forms.Label();
             this.lblRoles = new System.Windows.Forms.Label();
             this.lblPermisos = new System.Windows.Forms.Label();
+            this.lblCodigoRol = new System.Windows.Forms.Label();
+            this.lblNombreRol = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // listBoxRoles
             // 
             this.listBoxRoles.FormattingEnabled = true;
-            this.listBoxRoles.Location = new System.Drawing.Point(12, 41);
+            this.listBoxRoles.Location = new System.Drawing.Point(12, 65);
             this.listBoxRoles.Name = "listBoxRoles";
-            this.listBoxRoles.Size = new System.Drawing.Size(282, 121);
+            this.listBoxRoles.Size = new System.Drawing.Size(282, 225);
             this.listBoxRoles.TabIndex = 0;
             this.listBoxRoles.SelectedIndexChanged += new System.EventHandler(this.listBoxRoles_SelectedIndexChanged_1);
             // 
             // txtCodigoRol
             // 
-            this.txtCodigoRol.Location = new System.Drawing.Point(330, 29);
+            this.txtCodigoRol.Location = new System.Drawing.Point(537, 124);
             this.txtCodigoRol.Name = "txtCodigoRol";
             this.txtCodigoRol.Size = new System.Drawing.Size(100, 20);
             this.txtCodigoRol.TabIndex = 1;
             // 
             // txtNombreRol
             // 
-            this.txtNombreRol.Location = new System.Drawing.Point(330, 71);
+            this.txtNombreRol.Location = new System.Drawing.Point(537, 173);
             this.txtNombreRol.Name = "txtNombreRol";
             this.txtNombreRol.Size = new System.Drawing.Size(100, 20);
             this.txtNombreRol.TabIndex = 2;
             // 
             // btnCrearRol
             // 
-            this.btnCrearRol.Location = new System.Drawing.Point(321, 116);
+            this.btnCrearRol.Location = new System.Drawing.Point(448, 257);
             this.btnCrearRol.Name = "btnCrearRol";
             this.btnCrearRol.Size = new System.Drawing.Size(75, 23);
             this.btnCrearRol.TabIndex = 3;
@@ -79,7 +81,7 @@
             // 
             // btnEliminarRol
             // 
-            this.btnEliminarRol.Location = new System.Drawing.Point(402, 116);
+            this.btnEliminarRol.Location = new System.Drawing.Point(562, 257);
             this.btnEliminarRol.Name = "btnEliminarRol";
             this.btnEliminarRol.Size = new System.Drawing.Size(75, 23);
             this.btnEliminarRol.TabIndex = 4;
@@ -91,14 +93,14 @@
             // clbPermisos
             // 
             this.clbPermisos.FormattingEnabled = true;
-            this.clbPermisos.Location = new System.Drawing.Point(12, 219);
+            this.clbPermisos.Location = new System.Drawing.Point(15, 361);
             this.clbPermisos.Name = "clbPermisos";
-            this.clbPermisos.Size = new System.Drawing.Size(267, 184);
+            this.clbPermisos.Size = new System.Drawing.Size(323, 184);
             this.clbPermisos.TabIndex = 5;
             // 
             // btnGuardarPermisos
             // 
-            this.btnGuardarPermisos.Location = new System.Drawing.Point(321, 294);
+            this.btnGuardarPermisos.Location = new System.Drawing.Point(448, 440);
             this.btnGuardarPermisos.Name = "btnGuardarPermisos";
             this.btnGuardarPermisos.Size = new System.Drawing.Size(75, 23);
             this.btnGuardarPermisos.TabIndex = 6;
@@ -110,14 +112,14 @@
             // cboUsuarios
             // 
             this.cboUsuarios.FormattingEnabled = true;
-            this.cboUsuarios.Location = new System.Drawing.Point(569, 296);
+            this.cboUsuarios.Location = new System.Drawing.Point(802, 424);
             this.cboUsuarios.Name = "cboUsuarios";
             this.cboUsuarios.Size = new System.Drawing.Size(121, 21);
             this.cboUsuarios.TabIndex = 7;
             // 
             // btnAsignarRol
             // 
-            this.btnAsignarRol.Location = new System.Drawing.Point(557, 336);
+            this.btnAsignarRol.Location = new System.Drawing.Point(791, 464);
             this.btnAsignarRol.Name = "btnAsignarRol";
             this.btnAsignarRol.Size = new System.Drawing.Size(75, 23);
             this.btnAsignarRol.TabIndex = 8;
@@ -128,7 +130,7 @@
             // 
             // btnQuitarRol
             // 
-            this.btnQuitarRol.Location = new System.Drawing.Point(638, 336);
+            this.btnQuitarRol.Location = new System.Drawing.Point(872, 464);
             this.btnQuitarRol.Name = "btnQuitarRol";
             this.btnQuitarRol.Size = new System.Drawing.Size(75, 23);
             this.btnQuitarRol.TabIndex = 9;
@@ -140,7 +142,7 @@
             // lblUsuarios
             // 
             this.lblUsuarios.AutoSize = true;
-            this.lblUsuarios.Location = new System.Drawing.Point(610, 258);
+            this.lblUsuarios.Location = new System.Drawing.Point(844, 386);
             this.lblUsuarios.Name = "lblUsuarios";
             this.lblUsuarios.Size = new System.Drawing.Size(35, 13);
             this.lblUsuarios.TabIndex = 10;
@@ -160,18 +162,40 @@
             // lblPermisos
             // 
             this.lblPermisos.AutoSize = true;
-            this.lblPermisos.Location = new System.Drawing.Point(12, 193);
+            this.lblPermisos.Location = new System.Drawing.Point(27, 323);
             this.lblPermisos.Name = "lblPermisos";
             this.lblPermisos.Size = new System.Drawing.Size(35, 13);
             this.lblPermisos.TabIndex = 12;
             this.lblPermisos.Tag = "lbl.permisos";
             this.lblPermisos.Text = "label1";
             // 
+            // lblCodigoRol
+            // 
+            this.lblCodigoRol.AutoSize = true;
+            this.lblCodigoRol.Location = new System.Drawing.Point(406, 127);
+            this.lblCodigoRol.Name = "lblCodigoRol";
+            this.lblCodigoRol.Size = new System.Drawing.Size(35, 13);
+            this.lblCodigoRol.TabIndex = 13;
+            this.lblCodigoRol.Tag = "lbl.codigoRol";
+            this.lblCodigoRol.Text = "label1";
+            // 
+            // lblNombreRol
+            // 
+            this.lblNombreRol.AutoSize = true;
+            this.lblNombreRol.Location = new System.Drawing.Point(406, 180);
+            this.lblNombreRol.Name = "lblNombreRol";
+            this.lblNombreRol.Size = new System.Drawing.Size(35, 13);
+            this.lblNombreRol.TabIndex = 14;
+            this.lblNombreRol.Tag = "lbl.nombreRol";
+            this.lblNombreRol.Text = "label2";
+            // 
             // GestionRoles
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 450);
+            this.ClientSize = new System.Drawing.Size(1036, 580);
+            this.Controls.Add(this.lblNombreRol);
+            this.Controls.Add(this.lblCodigoRol);
             this.Controls.Add(this.lblPermisos);
             this.Controls.Add(this.lblRoles);
             this.Controls.Add(this.lblUsuarios);
@@ -208,5 +232,7 @@
         private System.Windows.Forms.Label lblUsuarios;
         private System.Windows.Forms.Label lblRoles;
         private System.Windows.Forms.Label lblPermisos;
+        private System.Windows.Forms.Label lblCodigoRol;
+        private System.Windows.Forms.Label lblNombreRol;
     }
 }

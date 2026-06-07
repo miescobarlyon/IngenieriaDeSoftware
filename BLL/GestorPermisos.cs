@@ -9,7 +9,6 @@ namespace BLL
     {
         private readonly DAL.MP_ComponentePermiso mapper = new DAL.MP_ComponentePermiso();
 
-
         public void CrearGrupo(string codigo, string nombre)
         {
             if (mapper.TraerPorCodigo(codigo) != null)
@@ -17,8 +16,6 @@ namespace BLL
 
             mapper.Agregar(new GrupoPermiso { Codigo = codigo, Nombre = nombre });
         }
-
-        // === Eliminar ===
 
         public void Eliminar(string codigo)
         {
@@ -66,8 +63,6 @@ namespace BLL
             return mapper.TraerHijos(grupo.Id);
         }
 
-        // === Asignar/quitar a un usuario ===
-
         public void AsignarAUsuario(int idUsuario, string codigoComponente)
         {
             var componente = mapper.TraerPorCodigo(codigoComponente)
@@ -87,8 +82,6 @@ namespace BLL
 
             mapper.QuitarDeUsuario(idUsuario, componente.Id);
         }
-
-        // === Consultas para el panel admin ===
 
         public List<ComponentePermiso> ObtenerTodos()
         {
@@ -113,8 +106,6 @@ namespace BLL
             LlenarHijos(componente, new HashSet<int>());
             return componente;
         }
-
-        // === Permisos efectivos de un usuario ===
 
         public ComponentePermiso ObtenerPermisosDeUsuario(int idUsuario)
         {
@@ -142,8 +133,6 @@ namespace BLL
         {
             return ObtenerPermisosDeUsuario(idUsuario).Tiene(codigoPermiso);
         }
-
-        // === Helper privado: carga recursivamente los hijos de un grupo ===
 
         private void LlenarHijos(ComponentePermiso componente, HashSet<int> visitados)
         {
