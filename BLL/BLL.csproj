@@ -44,6 +44,7 @@
     <Compile Include="BitacoraService.cs" />
     <Compile Include="DigitoVerificadorService.cs" />
     <Compile Include="ErrorManagerService.cs" />
+    <Compile Include="HistorialUsuarioService.cs" />
     <Compile Include="GestorPermisos.cs" />
     <Compile Include="IdiomaService.cs" />
     <Compile Include="IIdiomaObserver.cs" />

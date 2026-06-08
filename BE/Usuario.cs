@@ -61,6 +61,7 @@ namespace BE
             set { bloqueado = value; }
         }
 
+        public string Estado => Bloqueado == 1 ? "Bloqueado" : "Activo";
         private string dvh;
 
         public string Dvh
