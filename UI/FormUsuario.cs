@@ -13,7 +13,6 @@ namespace UI
         private readonly ErrorManagerService errorManager =
             ErrorManagerService.GetInstance();
 
-        // null → Add mode;  non-null → Edit mode
         private readonly BE.Usuario _usuarioOriginal;
         private bool IsEditMode => _usuarioOriginal != null;
 
@@ -25,7 +24,6 @@ namespace UI
             errorManager.OnOcurrioError += ErrorManager_OnOcurrioError;
         }
 
-        // ── Load ──────────────────────────────────────────────────────────────
 
         private void FormUsuario_Load(object sender, EventArgs e)
         {
@@ -38,8 +36,6 @@ namespace UI
                 textBoxNombre.Text = _usuarioOriginal.Nombre;
                 textBoxApellido.Text = _usuarioOriginal.Apellido;
                 textBoxUsuario.Text = _usuarioOriginal.User;
-                // Password fields are left blank intentionally —
-                // empty = keep existing credentials.
             }
             else
             {
@@ -47,8 +43,6 @@ namespace UI
                 this.Text = IdiomaService.GetInstance().Traducir("titulo.nuevoUsuario");
             }
         }
-
-        // ── Button handlers ───────────────────────────────────────────────────
 
         private void buttonGuardar_Click(object sender, EventArgs e)
         {
@@ -68,12 +62,10 @@ namespace UI
 
                 if (hayNuevaContrasena)
                 {
-                    // Hash and salt the new password inside BLL.
                     usuarioService.HashearPassword(usuario, textBoxContrasena.Text);
                 }
                 else if (IsEditMode)
                 {
-                    // No password change — preserve existing credentials.
                     usuario.PasswordHash = _usuarioOriginal.PasswordHash;
                     usuario.Salt = _usuarioOriginal.Salt;
                 }
@@ -93,12 +85,6 @@ namespace UI
             principal.LoadForm(new GestionUsuarios(principal));
         }
 
-        // ── Helpers ───────────────────────────────────────────────────────────
-
-        /// <summary>
-        /// Creates a shallow copy of the original entity so that the edit
-        /// carries the correct Id (and Borrado / Bloqueado state) into Guardar.
-        /// </summary>
         private BE.Usuario CopiarCamposEditados(BE.Usuario original)
         {
             return new BE.Usuario
@@ -108,9 +94,6 @@ namespace UI
                 Bloqueado = original.Bloqueado
             };
         }
-
-        // ── Validation ────────────────────────────────────────────────────────
-
         private bool Validar()
         {
             string nombre = textBoxNombre.Text.Trim();
@@ -143,7 +126,6 @@ namespace UI
                 return false;
             }
 
-            // Username uniqueness — skip the current user's own record in edit mode.
             var todos = UsuarioService.Listar();
             bool existe = todos.Any(u =>
                 u.User.Equals(usuario, StringComparison.OrdinalIgnoreCase)
@@ -158,7 +140,6 @@ namespace UI
                 return false;
             }
 
-            // Password required for new users; optional for edits.
             if (!IsEditMode && string.IsNullOrEmpty(pass))
             {
                 errorManager.ManejarError("La contraseña es obligatoria para un nuevo usuario.",
@@ -178,8 +159,6 @@ namespace UI
             return true;
         }
 
-        // ── Error display ─────────────────────────────────────────────────────
-
         private void ErrorManager_OnOcurrioError(object sender, BE.Error e)
         {
             MessageBoxIcon icon;
@@ -193,9 +172,6 @@ namespace UI
             }
             MessageBox.Show(e.Mensaje, "Notificación", MessageBoxButtons.OK, icon);
         }
-
-        // ── Cleanup ───────────────────────────────────────────────────────────
-
         protected override void Dispose(bool disposing)
         {
             if (disposing)
