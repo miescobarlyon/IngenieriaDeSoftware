@@ -76,6 +76,12 @@
     <Compile Include="HistorialUsuarioForm.Designer.cs">
       <DependentUpon>HistorialUsuarioForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="GestionRoles.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GestionRoles.Designer.cs">
+      <DependentUpon>GestionRoles.cs</DependentUpon>
+    </Compile>
     <Compile Include="Inicio.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -110,6 +116,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="HistorialUsuarioForm.resx">
       <DependentUpon>HistorialUsuarioForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GestionRoles.resx">
+      <DependentUpon>GestionRoles.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Inicio.resx">
       <DependentUpon>Inicio.cs</DependentUpon>

@@ -62,6 +62,13 @@ namespace BE
         }
 
         public string Estado => Bloqueado == 1 ? "Bloqueado" : "Activo";
+        private string dvh;
+
+        public string Dvh
+        {
+            get { return dvh; }
+            set { dvh = value; }
+        }
 
         public override string ToString()
         {

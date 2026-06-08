@@ -9,16 +9,15 @@ namespace BLL
 {
     internal class SecurityService
     {
-        public string GenerarSalt(int sizeBytes = 16)
+        public string Hash(string datos)
         {
-            byte[] salt = new byte[sizeBytes];
-            using (var rng = RandomNumberGenerator.Create())
+            if (datos == null) datos = "";
+            using (var sha = SHA256.Create())
             {
-                rng.GetBytes(salt);
+                byte[] hash = sha.ComputeHash(Encoding.UTF8.GetBytes(datos));
+                return Convert.ToBase64String(hash);
             }
-            return Convert.ToBase64String(salt);
         }
-
         public string HashPassword(string password, string saltBase64)
         {
             if (password == null) throw new ArgumentNullException(nameof(password));

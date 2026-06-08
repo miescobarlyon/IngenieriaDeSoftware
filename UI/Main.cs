@@ -14,19 +14,13 @@ namespace UI
     public partial class Main : TranslatableForm
     {
         private BLL.SessionManager sm = SessionManager.GetInstance();
-
-        // ← NEW: stored so we can unsubscribe cleanly in Dispose.
         private EventHandler<BE.Idioma> _onIdiomaAgregadoHandler;
 
         public Main()
         {
             InitializeComponent();
-
-            // ← NEW: subscribe before building the menu so any language added
-            //   between startup and menu build is not missed (edge case).
             _onIdiomaAgregadoHandler = (sender, idioma) =>
             {
-                // Always marshal back to the UI thread.
                 if (InvokeRequired) { Invoke(new Action(CargarMenuIdiomas)); return; }
                 CargarMenuIdiomas();
             };
@@ -37,12 +31,20 @@ namespace UI
 
             if (BLL.IdiomaService.GetInstance().IdiomaActual == null)
                 BLL.IdiomaService.GetInstance().CambiarIdioma(1);
+            AplicarPermisos();
         }
 
-        /// <summary>
-        /// Embeds a child form inside panelContenido.
-        /// Disposes the previous form first to release its observer subscription.
-        /// </summary>
+        private void AplicarPermisos()
+        {
+            var sm = BLL.SessionManager.GetInstance();
+
+            // Items existentes
+            bitácoraToolStripMenuItem.Visible = sm.TienePermiso("BITACORA.VER");
+
+            // Items futuros (cuando los crees en el designer):
+            // gestionUsuariosToolStripMenuItem.Visible = sm.TienePermiso("USUARIOS.LISTAR");
+            gestionRolesToolStripMenuItem.Visible    = sm.TienePermiso("PERMISOS.GESTIONAR");
+        }
         public void LoadForm(Form form)
         {
             foreach (Control c in panelContenido.Controls)
@@ -71,6 +73,7 @@ namespace UI
             idiomaMenu.Tag = "menu.idioma";
             idiomaMenu.Text = svc.Traducir("menu.idioma");
 
+            // Items para cambiar de idioma — los ven todos
             foreach (var idioma in idiomas)
             {
                 var capturedId = idioma.Id;
@@ -79,12 +82,16 @@ namespace UI
                 idiomaMenu.DropDownItems.Add(item);
             }
 
-            idiomaMenu.DropDownItems.Add(new ToolStripSeparator());
-            var agregarItem = new ToolStripMenuItem();
-            agregarItem.Tag = "menu.agregarIdioma";
-            agregarItem.Text = svc.Traducir("menu.agregarIdioma");
-            agregarItem.Click += (s, e) => LoadForm(new AgregarIdioma(this));
-            idiomaMenu.DropDownItems.Add(agregarItem);
+            // Sub-item "Agregar idioma" — solo si tiene permiso
+            if (BLL.SessionManager.GetInstance().TienePermiso("IDIOMAS.GESTIONAR"))
+            {
+                idiomaMenu.DropDownItems.Add(new ToolStripSeparator());
+                var agregarItem = new ToolStripMenuItem();
+                agregarItem.Tag = "menu.agregarIdioma";
+                agregarItem.Text = svc.Traducir("menu.agregarIdioma");
+                agregarItem.Click += (s, e) => LoadForm(new AgregarIdioma(this));
+                idiomaMenu.DropDownItems.Add(agregarItem);
+            }
 
             menuStrip1.Items.Add(idiomaMenu);
         }
@@ -99,8 +106,6 @@ namespace UI
             }
             base.Dispose(disposing); 
         }
-
-        // ── Menu event handlers ────────────────────────────────────────────────
 
         private void cerrarSesiónToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -128,6 +133,11 @@ namespace UI
         private void usuariosToolStripMenuItem_Click(object sender, EventArgs e)
         {
             LoadForm(new GestionUsuarios(this));
+        }
+
+        private void gestionRolesToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            LoadForm(new GestionRoles(this));
         }
     }
 }

@@ -12,7 +12,7 @@ namespace BLL
         BLL.ErrorManagerService ErrorManager = BLL.ErrorManagerService.GetInstance();
         private readonly DAL.MP_Usuario mapper = new DAL.MP_Usuario();
         private readonly SecurityService hashService = new SecurityService();
-
+        private readonly DigitoVerificadorService dvService = new DigitoVerificadorService();
         public bool Login(string user, string passwordPlano)
         {
             bool resultado = false;
@@ -50,6 +50,7 @@ namespace BLL
                                 Criticidad = BE.EnumCriticidad.BAJA
                             };
                             mapper.ReestablecerIntentos(usuario);
+                            dvService.Recalcular();
                             SessionManager.Login(usuario);
                             resultado = true;
                         }
@@ -66,7 +67,7 @@ namespace BLL
                                 Criticidad = BE.EnumCriticidad.MEDIA
                             };
                             mapper.AgregarIntento(usuario);
-
+                            dvService.Recalcular();
                             if (intentosRestantes > 0)
                             {
                                 ErrorManager.ManejarError(
@@ -118,7 +119,7 @@ namespace BLL
                 };
                 BLL.BitacoraService.Guardar(registro);
                 mapper.Bloquear(usuario);
-
+                new DigitoVerificadorService().Recalcular();
                 ErrorManagerService.GetInstance().ManejarError(
                     "Tu usuario ha sido bloqueado por exceso de intentos fallidos.",
                     BE.EnumError.Critico);
