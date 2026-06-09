@@ -28,6 +28,11 @@ public class DigitoVerificadorService
 
         string dvv = hashService.Hash(concatenacion.ToString());
         mpDV.ActualizarDVV("USUARIO", dvv);
+        
+    }
+    public void RecalcularConBackup()
+    {
+        Recalcular();
         mpDV.ActualizarBackup();
     }
     public void Restaurar()
@@ -43,7 +48,7 @@ public class DigitoVerificadorService
 
         if (string.IsNullOrEmpty(dvvGuardado))
         {
-            Recalcular();
+            RecalcularConBackup();
             resultado.EsValido = true;
             return resultado;
         }

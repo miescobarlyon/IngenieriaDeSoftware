@@ -27,6 +27,7 @@
             this.sesionToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.cerrarSesiónToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.gestionRolesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.recuperacionDBToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.panelContenido = new System.Windows.Forms.Panel();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -39,7 +40,8 @@
             this.bitácoraToolStripMenuItem,
             this.usuariosToolStripMenuItem,
             this.sesionToolStripMenuItem,
-            this.gestionRolesToolStripMenuItem});
+            this.gestionRolesToolStripMenuItem,
+            this.recuperacionDBToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Padding = new System.Windows.Forms.Padding(4, 1, 0, 1);
@@ -83,7 +85,7 @@
             // cerrarSesiónToolStripMenuItem
             // 
             this.cerrarSesiónToolStripMenuItem.Name = "cerrarSesiónToolStripMenuItem";
-            this.cerrarSesiónToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.cerrarSesiónToolStripMenuItem.Size = new System.Drawing.Size(143, 22);
             this.cerrarSesiónToolStripMenuItem.Tag = "menu.cerrarSesion";
             this.cerrarSesiónToolStripMenuItem.Text = "Cerrar Sesión";
             this.cerrarSesiónToolStripMenuItem.Click += new System.EventHandler(this.cerrarSesiónToolStripMenuItem_Click);
@@ -95,6 +97,13 @@
             this.gestionRolesToolStripMenuItem.Tag = "menu.gestionRoles";
             this.gestionRolesToolStripMenuItem.Text = "Gestion De Roles";
             this.gestionRolesToolStripMenuItem.Click += new System.EventHandler(this.gestionRolesToolStripMenuItem_Click);
+            // 
+            // recuperacionDBToolStripMenuItem
+            // 
+            this.recuperacionDBToolStripMenuItem.Name = "recuperacionDBToolStripMenuItem";
+            this.recuperacionDBToolStripMenuItem.Size = new System.Drawing.Size(91, 22);
+            this.recuperacionDBToolStripMenuItem.Text = "Recuperacion";
+            this.recuperacionDBToolStripMenuItem.Click += new System.EventHandler(this.recuperacionDBToolStripMenuItem_Click);
             // 
             // panelContenido
             // 
@@ -133,5 +142,6 @@
         public System.Windows.Forms.Panel panelContenido;
         private System.Windows.Forms.ToolStripMenuItem usuariosToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem gestionRolesToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem recuperacionDBToolStripMenuItem;
     }
 }

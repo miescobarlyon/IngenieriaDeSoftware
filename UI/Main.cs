@@ -27,7 +27,11 @@ namespace UI
             BLL.IdiomaService.GetInstance().OnIdiomaAgregado += _onIdiomaAgregadoHandler;
 
             CargarMenuIdiomas();
-            LoadForm(new Inicio(this));
+            var sm = SessionManager.GetInstance();
+            if (sm.DbCorrupta && sm.TienePermiso("BD.RESTAURAR"))
+                LoadForm(new RecuperacionDB(this));
+            else
+                LoadForm(new Inicio(this));
 
             if (BLL.IdiomaService.GetInstance().IdiomaActual == null)
                 BLL.IdiomaService.GetInstance().CambiarIdioma(1);
@@ -37,13 +41,9 @@ namespace UI
         private void AplicarPermisos()
         {
             var sm = BLL.SessionManager.GetInstance();
-
-            // Items existentes
             bitácoraToolStripMenuItem.Visible = sm.TienePermiso("BITACORA.VER");
-
-            // Items futuros (cuando los crees en el designer):
-            // gestionUsuariosToolStripMenuItem.Visible = sm.TienePermiso("USUARIOS.LISTAR");
             gestionRolesToolStripMenuItem.Visible    = sm.TienePermiso("PERMISOS.GESTIONAR");
+            recuperacionDBToolStripMenuItem.Visible = sm.TienePermiso("BD.RESTAURAR");
         }
         public void LoadForm(Form form)
         {
@@ -73,7 +73,6 @@ namespace UI
             idiomaMenu.Tag = "menu.idioma";
             idiomaMenu.Text = svc.Traducir("menu.idioma");
 
-            // Items para cambiar de idioma — los ven todos
             foreach (var idioma in idiomas)
             {
                 var capturedId = idioma.Id;
@@ -82,7 +81,6 @@ namespace UI
                 idiomaMenu.DropDownItems.Add(item);
             }
 
-            // Sub-item "Agregar idioma" — solo si tiene permiso
             if (BLL.SessionManager.GetInstance().TienePermiso("IDIOMAS.GESTIONAR"))
             {
                 idiomaMenu.DropDownItems.Add(new ToolStripSeparator());
@@ -138,6 +136,11 @@ namespace UI
         private void gestionRolesToolStripMenuItem_Click(object sender, EventArgs e)
         {
             LoadForm(new GestionRoles(this));
+        }
+
+        private void recuperacionDBToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            LoadForm(new RecuperacionDB(this));
         }
     }
 }

@@ -42,6 +42,22 @@ namespace BLL
                         }
                         else if (ok)
                         {
+                            if (SessionManager.DbCorrupta &&
+        !new GestorPermisos().TienePermiso(usuario.Id, "BD.RESTAURAR"))
+                            {
+                                registro = new BE.Bitacora
+                                {
+                                    Usuario = usuario,
+                                    Fecha = DateTime.Now,
+                                    Actividad = $"{usuario.Id} intentó ingresar con DB corrupta sin permisos.",
+                                    Criticidad = BE.EnumCriticidad.ALTA
+                                };
+                                BLL.BitacoraService.Guardar(registro);
+                                ErrorManager.ManejarError(
+                                    "La base de datos está corrupta. Solo un administrador puede ingresar para restaurarla.",
+                                    BE.EnumError.Critico);
+                                return false;
+                            }
                             registro = new BE.Bitacora
                             {
                                 Usuario = usuario,
@@ -50,7 +66,6 @@ namespace BLL
                                 Criticidad = BE.EnumCriticidad.BAJA
                             };
                             mapper.ReestablecerIntentos(usuario);
-                            dvService.Recalcular();
                             SessionManager.Login(usuario);
                             resultado = true;
                         }
@@ -67,7 +82,6 @@ namespace BLL
                                 Criticidad = BE.EnumCriticidad.MEDIA
                             };
                             mapper.AgregarIntento(usuario);
-                            dvService.Recalcular();
                             if (intentosRestantes > 0)
                             {
                                 ErrorManager.ManejarError(
@@ -119,7 +133,7 @@ namespace BLL
                 };
                 BLL.BitacoraService.Guardar(registro);
                 mapper.Bloquear(usuario);
-                new DigitoVerificadorService().Recalcular();
+                new DigitoVerificadorService().RecalcularConBackup();
                 ErrorManagerService.GetInstance().ManejarError(
                     "Tu usuario ha sido bloqueado por exceso de intentos fallidos.",
                     BE.EnumError.Critico);
@@ -153,6 +167,7 @@ namespace BLL
                     Criticidad = BE.EnumCriticidad.MEDIA
                 });
             }
+            dvService.RecalcularConBackup();
         }
 
         public BE.Usuario HashearPassword(BE.Usuario usuario, string passwordPlano)
@@ -173,6 +188,7 @@ namespace BLL
                 Actividad = $"{usuario.Id} fue desbloqueado por el administrador.",
                 Criticidad = BE.EnumCriticidad.MEDIA
             });
+            new DigitoVerificadorService().RecalcularConBackup();
         }
 
         public static List<BE.Usuario> ListarActivos()

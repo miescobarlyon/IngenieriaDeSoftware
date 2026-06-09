@@ -21,7 +21,7 @@ namespace BLL
                     "No hay sesión activa. No se puede registrar el modificador.");
 
             new DAL.MP_HistorialUsuario().Revertir(historialId, modificador.Id);
-
+            new DigitoVerificadorService().RecalcularConBackup();
             BitacoraService.Guardar(new BE.Bitacora
             {
                 Usuario = modificador,
