@@ -14,13 +14,21 @@ namespace DAL
     {
         public override int Agregar(Usuario obj)
         {
+            return Agregar(obj, obj);
+        }
+
+        public int Agregar(Usuario usuarioAAgregar, Usuario modificador)
+        {
             acceso = new Acceso();
             acceso.Abrir();
             List<SqlParameter> parametros = new List<SqlParameter>();
-            parametros.Add(acceso.CrearParameter("@nombre", obj.Nombre));
-            parametros.Add(acceso.CrearParameter("@apellido",obj.Apellido));
-            parametros.Add(acceso.CrearParameter("@user",obj.User));
-            parametros.Add(acceso.CrearParameter("@pass",obj.PasswordHash));
+            parametros.Add(acceso.CrearParameter("@nombre", usuarioAAgregar.Nombre));
+            parametros.Add(acceso.CrearParameter("@apellido", usuarioAAgregar.Apellido));
+            parametros.Add(acceso.CrearParameter("@usuario", usuarioAAgregar.User));
+            parametros.Add(acceso.CrearParameter("@passhash", usuarioAAgregar.PasswordHash));
+            parametros.Add(acceso.CrearParameter("@salt", usuarioAAgregar.Salt));
+            parametros.Add(acceso.CrearParameter("@idioma_id", 1));
+            parametros.Add(acceso.CrearParameter("@usuario_actual_id", modificador.Id));
             int res = acceso.Escribir("InsertarUsuario", parametros);
             acceso.Cerrar();
             return res;
@@ -48,6 +56,17 @@ namespace DAL
             return res;
         }
 
+        public int Desbloquear(Usuario obj)
+        {
+            acceso = new Acceso();
+            acceso.Abrir();
+            List<SqlParameter> parametros = new List<SqlParameter>();
+            parametros.Add(acceso.CrearParameter("@id", obj.Id));
+            int res = acceso.Escribir("DesbloquearUsuario", parametros);
+            acceso.Cerrar();
+            return res;
+        }
+
         public override List<Usuario> Listar()
         {
             List<BE.Usuario> usuarios = new List<BE.Usuario>();
@@ -69,23 +88,34 @@ namespace DAL
                 usuario.PasswordHash = row["pass_hash"].ToString();
                 usuario.Salt = row["salt"].ToString();
                 usuario.Borrado = int.Parse(row["borrado"].ToString());
+                usuario.Bloqueado = row["bloqueado"] == DBNull.Value ? 0 : int.Parse(row["bloqueado"].ToString());
+                usuario.Dvh = row["dvh"] == DBNull.Value ? "" : row["dvh"].ToString();
 
                 usuarios.Add(usuario);
             }
 
             return usuarios;
         }
-        //acá puse dos parametros cualquiera, porque es una funcion general, tipo no se ni quien va a modificar.
+
         public override int Modificar(Usuario obj)
+        {
+            return Modificar(obj, obj);
+        }
+
+        public int Modificar(Usuario usuario, Usuario modificador)
         {
             acceso = new Acceso();
             acceso.Abrir();
             List<SqlParameter> parametros = new List<SqlParameter>();
-            parametros.Add(acceso.CrearParameter("@id", obj.Id));
-            parametros.Add(acceso.CrearParameter("@nombre", obj.Nombre));
-            parametros.Add(acceso.CrearParameter("@apellido", obj.Apellido));
-            parametros.Add(acceso.CrearParameter("@user", obj.Apellido));
-            int res = acceso.Escribir("ModificarUsuario", parametros);
+            parametros.Add(acceso.CrearParameter("@usuario_id", usuario.Id));
+            parametros.Add(acceso.CrearParameter("@nombre", usuario.Nombre));
+            parametros.Add(acceso.CrearParameter("@apellido", usuario.Apellido));
+            parametros.Add(acceso.CrearParameter("@usuario", usuario.User));
+            parametros.Add(acceso.CrearParameter("@passhash", usuario.PasswordHash));
+            parametros.Add(acceso.CrearParameter("@salt", usuario.Salt));
+            parametros.Add(acceso.CrearParameter("@idioma_id", 1));
+            parametros.Add(acceso.CrearParameter("@usuario_actual_id", modificador.Id));
+            int res = acceso.Escribir("EditarUsuario", parametros);
             acceso.Cerrar();
             return res;
         }
@@ -185,6 +215,6 @@ namespace DAL
             }
         }
 
-        
+
     }
 }

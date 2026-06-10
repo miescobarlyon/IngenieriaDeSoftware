@@ -58,6 +58,30 @@
     <Compile Include="Bitacora.Designer.cs">
       <DependentUpon>Bitacora.cs</DependentUpon>
     </Compile>
+    <Compile Include="FormUsuario.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormUsuario.Designer.cs">
+      <DependentUpon>FormUsuario.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GestionUsuarios.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GestionUsuarios.Designer.cs">
+      <DependentUpon>GestionUsuarios.cs</DependentUpon>
+    </Compile>
+    <Compile Include="HistorialUsuarioForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="HistorialUsuarioForm.Designer.cs">
+      <DependentUpon>HistorialUsuarioForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GestionRoles.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GestionRoles.Designer.cs">
+      <DependentUpon>GestionRoles.cs</DependentUpon>
+    </Compile>
     <Compile Include="Inicio.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -78,11 +102,29 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RecuperacionDB.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="RecuperacionDB.Designer.cs">
+      <DependentUpon>RecuperacionDB.cs</DependentUpon>
+    </Compile>
     <Compile Include="TranslatableForm.cs">
       <SubType>Form</SubType>
     </Compile>
     <EmbeddedResource Include="Bitacora.resx">
       <DependentUpon>Bitacora.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormUsuario.resx">
+      <DependentUpon>FormUsuario.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GestionUsuarios.resx">
+      <DependentUpon>GestionUsuarios.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="HistorialUsuarioForm.resx">
+      <DependentUpon>HistorialUsuarioForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GestionRoles.resx">
+      <DependentUpon>GestionRoles.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Inicio.resx">
       <DependentUpon>Inicio.cs</DependentUpon>
@@ -102,6 +144,9 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="RecuperacionDB.resx">
+      <DependentUpon>RecuperacionDB.cs</DependentUpon>
+    </EmbeddedResource>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
