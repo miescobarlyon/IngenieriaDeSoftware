@@ -168,7 +168,7 @@ namespace UI
                 if (usuario.Bloqueado == 1)
                     UsuarioService.Desbloquear(usuario);
                 else
-                    UsuarioService.Bloquear(usuario);
+                    UsuarioService.BloquearAdHoc(usuario);
 
                 CargarUsuarios();
                 ActualizarBotones();

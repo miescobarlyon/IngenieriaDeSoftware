@@ -140,6 +140,29 @@ namespace BLL
             }
         }
 
+        public static void BloquearAdHoc(BE.Usuario usuario)
+        {
+            DAL.MP_Usuario mapper = new DAL.MP_Usuario();
+            int intentos = mapper.TraerIntentos(usuario);
+
+            if (usuario.Bloqueado == 0)
+            {
+                BE.Bitacora registro = new BE.Bitacora
+                {
+                    Usuario = usuario,
+                    Fecha = DateTime.Now,
+                    Actividad = $"{usuario.Id} fue bloqueado.",
+                    Criticidad = BE.EnumCriticidad.ALTA
+                };
+                BLL.BitacoraService.Guardar(registro);
+                mapper.Bloquear(usuario);
+                new DigitoVerificadorService().RecalcularConBackup();
+                ErrorManagerService.GetInstance().ManejarError(
+                    "El usuario ha sido bloqueado.",
+                    BE.EnumError.Critico);
+            }
+        }
+
         public void Guardar(BE.Usuario usuario)
         {
             DAL.MP_Usuario mapper = new DAL.MP_Usuario();

@@ -103,7 +103,7 @@ namespace UI
             var referencia = BLL.IdiomaService.GetInstance()
                                 .ListarTraducciones(IDIOMA_REFERENCIA_ID);
             foreach (var t in referencia)
-                dataGridViewTraducciones.Rows.Add(t.Clave, t.Texto, string.Empty);
+                dataGridViewTraducciones.Rows.Add(t.Clave, t.Texto, t.Texto);
         }
 
         private void buttonGuardar_Click(object sender, EventArgs e)
