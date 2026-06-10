@@ -34,6 +34,27 @@ namespace DAL
             return res;
         }
 
+        public int AgregarHistorial(Usuario usuarioAAgregar, Usuario modificador)
+        { 
+            int id = (from u in this.Listar()
+                      where u.User == usuarioAAgregar.User
+                      select u.Id).First();
+            acceso = new Acceso();
+            acceso.Abrir();
+            List<SqlParameter> parametros = new List<SqlParameter>();
+            parametros.Add(acceso.CrearParameter("@nombre", usuarioAAgregar.Nombre));
+            parametros.Add(acceso.CrearParameter("@apellido", usuarioAAgregar.Apellido));
+            parametros.Add(acceso.CrearParameter("@usuario", usuarioAAgregar.User));
+            parametros.Add(acceso.CrearParameter("@passhash", usuarioAAgregar.PasswordHash));
+            parametros.Add(acceso.CrearParameter("@salt", usuarioAAgregar.Salt));
+            parametros.Add(acceso.CrearParameter("@idioma_id", 1));
+            parametros.Add(acceso.CrearParameter("@usuario_actual_id", modificador.Id));
+            parametros.Add(acceso.CrearParameter("@usuario_id", id));
+            int res = acceso.Escribir("AltaEnHistorial", parametros);
+            acceso.Cerrar();
+            return res;
+        }
+
         public override int Eliminar(Usuario obj)
         {
             acceso = new Acceso();
