@@ -43,7 +43,30 @@ namespace BLL
             if (padre.Id == hijo.Id)
                 throw new InvalidOperationException("Un componente no puede contenerse a sí mismo.");
 
+            if (hijo is GrupoPermiso && EstaEnSubArbol(hijo.Id, padre.Id))
+                throw new InvalidOperationException(
+                    $"No se puede agregar '{codigoHijo}' como hijo de '{codigoPadre}': " +
+                    $"generaría una referencia circular " +
+                    $"('{codigoPadre}' ya pertenece al árbol de '{codigoHijo}').");
+
             mapper.AgregarHijo(padre.Id, hijo.Id);
+        }
+        private bool EstaEnSubArbol(int idRaiz, int idObjetivo)
+        {
+            var visitados = new HashSet<int>();
+            var pila = new Stack<int>();
+            pila.Push(idRaiz);
+
+            while (pila.Count > 0)
+            {
+                int actual = pila.Pop();
+                if (!visitados.Add(actual)) continue;
+                if (actual == idObjetivo) return true;
+
+                foreach (var h in mapper.TraerHijos(actual))
+                    pila.Push(h.Id);
+            }
+            return false;
         }
 
         public void QuitarHijo(string codigoPadre, string codigoHijo)

@@ -16,12 +16,22 @@ namespace UI
         
         BLL.UsuarioService userservice = new BLL.UsuarioService();
         BLL.ErrorManagerService errorManager = ErrorManagerService.GetInstance();
-       
+
         public Form1()
         {
             InitializeComponent();
             errorManager.OnOcurrioError += ErrorManager_OnOcurrioError;
-            comboBoxIdiomas.DataSource = BLL.IdiomaService.GetInstance().ListarIdiomas(); 
+            BLL.IdiomaService.GetInstance().OnIdiomaAgregado += (s, idioma) =>
+            {
+                if (InvokeRequired) { Invoke(new Action(CargarIdiomas)); return; }
+                CargarIdiomas();
+            };
+            CargarIdiomas();
+        }
+
+        private void CargarIdiomas()
+        {
+            comboBoxIdiomas.DataSource = BLL.IdiomaService.GetInstance().ListarIdiomas();
             comboBoxIdiomas.DisplayMember = "Codigo";
         }
 
