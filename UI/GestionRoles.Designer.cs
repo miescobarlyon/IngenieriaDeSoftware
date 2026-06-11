@@ -2,15 +2,8 @@
 {
     partial class GestionRoles
     {
-        /// <summary>
-        /// Required designer variable.
-        /// </summary>
         private System.ComponentModel.IContainer components = null;
 
-        /// <summary>
-        /// Clean up any resources being used.
-        /// </summary>
-        /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
         protected override void Dispose(bool disposing)
         {
             if (disposing && (components != null))
@@ -22,19 +15,16 @@
 
         #region Windows Form Designer generated code
 
-        /// <summary>
-        /// Required method for Designer support - do not modify
-        /// the contents of this method with the code editor.
-        /// </summary>
         private void InitializeComponent()
         {
-            this.listBoxRoles = new System.Windows.Forms.ListBox();
+            this.treeRoles = new System.Windows.Forms.TreeView();
+            this.lstDisponibles = new System.Windows.Forms.ListBox();
             this.txtCodigoRol = new System.Windows.Forms.TextBox();
             this.txtNombreRol = new System.Windows.Forms.TextBox();
             this.btnCrearRol = new System.Windows.Forms.Button();
             this.btnEliminarRol = new System.Windows.Forms.Button();
-            this.clbPermisos = new System.Windows.Forms.CheckedListBox();
-            this.btnGuardarPermisos = new System.Windows.Forms.Button();
+            this.btnAgregarHijo = new System.Windows.Forms.Button();
+            this.btnQuitarHijo = new System.Windows.Forms.Button();
             this.cboUsuarios = new System.Windows.Forms.ComboBox();
             this.btnAsignarRol = new System.Windows.Forms.Button();
             this.btnQuitarRol = new System.Windows.Forms.Button();
@@ -45,187 +35,198 @@
             this.lblNombreRol = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
-            // listBoxRoles
+            // treeRoles
             // 
-            this.listBoxRoles.FormattingEnabled = true;
-            this.listBoxRoles.Location = new System.Drawing.Point(12, 65);
-            this.listBoxRoles.Name = "listBoxRoles";
-            this.listBoxRoles.Size = new System.Drawing.Size(282, 225);
-            this.listBoxRoles.TabIndex = 0;
-            this.listBoxRoles.SelectedIndexChanged += new System.EventHandler(this.listBoxRoles_SelectedIndexChanged_1);
+            this.treeRoles.Location = new System.Drawing.Point(15, 30);
+            this.treeRoles.Name = "treeRoles";
+            this.treeRoles.Size = new System.Drawing.Size(420, 480);
+            this.treeRoles.TabIndex = 0;
+            this.treeRoles.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.treeRoles_AfterSelect);
+            // 
+            // lblRoles
+            // 
+            this.lblRoles.AutoSize = true;
+            this.lblRoles.Location = new System.Drawing.Point(15, 9);
+            this.lblRoles.Name = "lblRoles";
+            this.lblRoles.Size = new System.Drawing.Size(35, 13);
+            this.lblRoles.TabIndex = 1;
+            this.lblRoles.Tag = "lbl.roles";
+            this.lblRoles.Text = "Roles";
+            // 
+            // lblCodigoRol
+            // 
+            this.lblCodigoRol.AutoSize = true;
+            this.lblCodigoRol.Location = new System.Drawing.Point(465, 33);
+            this.lblCodigoRol.Name = "lblCodigoRol";
+            this.lblCodigoRol.Size = new System.Drawing.Size(35, 13);
+            this.lblCodigoRol.TabIndex = 2;
+            this.lblCodigoRol.Tag = "lbl.codigoRol";
+            this.lblCodigoRol.Text = "Código";
             // 
             // txtCodigoRol
             // 
-            this.txtCodigoRol.Location = new System.Drawing.Point(554, 122);
+            this.txtCodigoRol.Location = new System.Drawing.Point(560, 30);
             this.txtCodigoRol.Name = "txtCodigoRol";
-            this.txtCodigoRol.Size = new System.Drawing.Size(100, 20);
-            this.txtCodigoRol.TabIndex = 1;
+            this.txtCodigoRol.Size = new System.Drawing.Size(160, 20);
+            this.txtCodigoRol.TabIndex = 3;
+            // 
+            // lblNombreRol
+            // 
+            this.lblNombreRol.AutoSize = true;
+            this.lblNombreRol.Location = new System.Drawing.Point(465, 62);
+            this.lblNombreRol.Name = "lblNombreRol";
+            this.lblNombreRol.Size = new System.Drawing.Size(35, 13);
+            this.lblNombreRol.TabIndex = 4;
+            this.lblNombreRol.Tag = "lbl.nombreRol";
+            this.lblNombreRol.Text = "Nombre";
             // 
             // txtNombreRol
             // 
-            this.txtNombreRol.Location = new System.Drawing.Point(554, 171);
+            this.txtNombreRol.Location = new System.Drawing.Point(560, 59);
             this.txtNombreRol.Name = "txtNombreRol";
-            this.txtNombreRol.Size = new System.Drawing.Size(100, 20);
-            this.txtNombreRol.TabIndex = 2;
+            this.txtNombreRol.Size = new System.Drawing.Size(160, 20);
+            this.txtNombreRol.TabIndex = 5;
             // 
             // btnCrearRol
             // 
-            this.btnCrearRol.Location = new System.Drawing.Point(465, 255);
+            this.btnCrearRol.Location = new System.Drawing.Point(560, 90);
             this.btnCrearRol.Name = "btnCrearRol";
             this.btnCrearRol.Size = new System.Drawing.Size(75, 23);
-            this.btnCrearRol.TabIndex = 3;
+            this.btnCrearRol.TabIndex = 6;
             this.btnCrearRol.Tag = "btn.crearRol";
-            this.btnCrearRol.Text = "button1";
+            this.btnCrearRol.Text = "Crear";
             this.btnCrearRol.UseVisualStyleBackColor = true;
             this.btnCrearRol.Click += new System.EventHandler(this.btnCrearRol_Click);
             // 
             // btnEliminarRol
             // 
-            this.btnEliminarRol.Location = new System.Drawing.Point(579, 255);
+            this.btnEliminarRol.Location = new System.Drawing.Point(645, 90);
             this.btnEliminarRol.Name = "btnEliminarRol";
             this.btnEliminarRol.Size = new System.Drawing.Size(75, 23);
-            this.btnEliminarRol.TabIndex = 4;
+            this.btnEliminarRol.TabIndex = 7;
             this.btnEliminarRol.Tag = "btn.eliminarRol";
-            this.btnEliminarRol.Text = "button2";
+            this.btnEliminarRol.Text = "Eliminar";
             this.btnEliminarRol.UseVisualStyleBackColor = true;
             this.btnEliminarRol.Click += new System.EventHandler(this.btnEliminarRol_Click);
             // 
-            // clbPermisos
+            // lblPermisos
             // 
-            this.clbPermisos.FormattingEnabled = true;
-            this.clbPermisos.Location = new System.Drawing.Point(15, 361);
-            this.clbPermisos.Name = "clbPermisos";
-            this.clbPermisos.Size = new System.Drawing.Size(323, 184);
-            this.clbPermisos.TabIndex = 5;
+            this.lblPermisos.AutoSize = true;
+            this.lblPermisos.Location = new System.Drawing.Point(465, 140);
+            this.lblPermisos.Name = "lblPermisos";
+            this.lblPermisos.Size = new System.Drawing.Size(35, 13);
+            this.lblPermisos.TabIndex = 8;
+            this.lblPermisos.Tag = "lbl.permisos";
+            this.lblPermisos.Text = "Disponibles";
             // 
-            // btnGuardarPermisos
+            // lstDisponibles
             // 
-            this.btnGuardarPermisos.Location = new System.Drawing.Point(426, 439);
-            this.btnGuardarPermisos.Name = "btnGuardarPermisos";
-            this.btnGuardarPermisos.Size = new System.Drawing.Size(75, 23);
-            this.btnGuardarPermisos.TabIndex = 6;
-            this.btnGuardarPermisos.Tag = "btn.guardarPermisos";
-            this.btnGuardarPermisos.Text = "button1";
-            this.btnGuardarPermisos.UseVisualStyleBackColor = true;
-            this.btnGuardarPermisos.Click += new System.EventHandler(this.btnGuardarPermisos_Click);
+            this.lstDisponibles.FormattingEnabled = true;
+            this.lstDisponibles.Location = new System.Drawing.Point(465, 160);
+            this.lstDisponibles.Name = "lstDisponibles";
+            this.lstDisponibles.Size = new System.Drawing.Size(255, 199);
+            this.lstDisponibles.TabIndex = 9;
+            // 
+            // btnAgregarHijo
+            // 
+            this.btnAgregarHijo.Location = new System.Drawing.Point(465, 365);
+            this.btnAgregarHijo.Name = "btnAgregarHijo";
+            this.btnAgregarHijo.Size = new System.Drawing.Size(125, 23);
+            this.btnAgregarHijo.TabIndex = 10;
+            this.btnAgregarHijo.Tag = "btn.agregarHijo";
+            this.btnAgregarHijo.Text = "Agregar hijo";
+            this.btnAgregarHijo.UseVisualStyleBackColor = true;
+            this.btnAgregarHijo.Click += new System.EventHandler(this.btnAgregarHijo_Click);
+            // 
+            // btnQuitarHijo
+            // 
+            this.btnQuitarHijo.Location = new System.Drawing.Point(595, 365);
+            this.btnQuitarHijo.Name = "btnQuitarHijo";
+            this.btnQuitarHijo.Size = new System.Drawing.Size(125, 23);
+            this.btnQuitarHijo.TabIndex = 11;
+            this.btnQuitarHijo.Tag = "btn.quitarHijo";
+            this.btnQuitarHijo.Text = "Quitar hijo";
+            this.btnQuitarHijo.UseVisualStyleBackColor = true;
+            this.btnQuitarHijo.Click += new System.EventHandler(this.btnQuitarHijo_Click);
+            // 
+            // lblUsuarios
+            // 
+            this.lblUsuarios.AutoSize = true;
+            this.lblUsuarios.Location = new System.Drawing.Point(465, 420);
+            this.lblUsuarios.Name = "lblUsuarios";
+            this.lblUsuarios.Size = new System.Drawing.Size(35, 13);
+            this.lblUsuarios.TabIndex = 12;
+            this.lblUsuarios.Tag = "lbl.asignarUsuario";
+            this.lblUsuarios.Text = "Asignar a usuario";
             // 
             // cboUsuarios
             // 
             this.cboUsuarios.FormattingEnabled = true;
-            this.cboUsuarios.Location = new System.Drawing.Point(802, 424);
+            this.cboUsuarios.Location = new System.Drawing.Point(465, 440);
             this.cboUsuarios.Name = "cboUsuarios";
-            this.cboUsuarios.Size = new System.Drawing.Size(121, 21);
-            this.cboUsuarios.TabIndex = 7;
+            this.cboUsuarios.Size = new System.Drawing.Size(255, 21);
+            this.cboUsuarios.TabIndex = 13;
             // 
             // btnAsignarRol
             // 
-            this.btnAsignarRol.Location = new System.Drawing.Point(791, 464);
+            this.btnAsignarRol.Location = new System.Drawing.Point(465, 470);
             this.btnAsignarRol.Name = "btnAsignarRol";
-            this.btnAsignarRol.Size = new System.Drawing.Size(75, 23);
-            this.btnAsignarRol.TabIndex = 8;
+            this.btnAsignarRol.Size = new System.Drawing.Size(125, 23);
+            this.btnAsignarRol.TabIndex = 14;
             this.btnAsignarRol.Tag = "btn.asignarRol";
-            this.btnAsignarRol.Text = "button1";
+            this.btnAsignarRol.Text = "Asignar";
             this.btnAsignarRol.UseVisualStyleBackColor = true;
             this.btnAsignarRol.Click += new System.EventHandler(this.btnAsignarRol_Click);
             // 
             // btnQuitarRol
             // 
-            this.btnQuitarRol.Location = new System.Drawing.Point(872, 464);
+            this.btnQuitarRol.Location = new System.Drawing.Point(595, 470);
             this.btnQuitarRol.Name = "btnQuitarRol";
-            this.btnQuitarRol.Size = new System.Drawing.Size(75, 23);
-            this.btnQuitarRol.TabIndex = 9;
+            this.btnQuitarRol.Size = new System.Drawing.Size(125, 23);
+            this.btnQuitarRol.TabIndex = 15;
             this.btnQuitarRol.Tag = "btn.quitarRol";
-            this.btnQuitarRol.Text = "button1";
+            this.btnQuitarRol.Text = "Quitar";
             this.btnQuitarRol.UseVisualStyleBackColor = true;
             this.btnQuitarRol.Click += new System.EventHandler(this.btnQuitarRol_Click);
-            // 
-            // lblUsuarios
-            // 
-            this.lblUsuarios.AutoSize = true;
-            this.lblUsuarios.Location = new System.Drawing.Point(844, 386);
-            this.lblUsuarios.Name = "lblUsuarios";
-            this.lblUsuarios.Size = new System.Drawing.Size(35, 13);
-            this.lblUsuarios.TabIndex = 10;
-            this.lblUsuarios.Tag = "lbl.asignarUsuario";
-            this.lblUsuarios.Text = "label1";
-            // 
-            // lblRoles
-            // 
-            this.lblRoles.AutoSize = true;
-            this.lblRoles.Location = new System.Drawing.Point(27, 9);
-            this.lblRoles.Name = "lblRoles";
-            this.lblRoles.Size = new System.Drawing.Size(35, 13);
-            this.lblRoles.TabIndex = 11;
-            this.lblRoles.Tag = "lbl.roles";
-            this.lblRoles.Text = "label1";
-            // 
-            // lblPermisos
-            // 
-            this.lblPermisos.AutoSize = true;
-            this.lblPermisos.Location = new System.Drawing.Point(27, 323);
-            this.lblPermisos.Name = "lblPermisos";
-            this.lblPermisos.Size = new System.Drawing.Size(35, 13);
-            this.lblPermisos.TabIndex = 12;
-            this.lblPermisos.Tag = "lbl.permisos";
-            this.lblPermisos.Text = "label1";
-            // 
-            // lblCodigoRol
-            // 
-            this.lblCodigoRol.AutoSize = true;
-            this.lblCodigoRol.Location = new System.Drawing.Point(423, 125);
-            this.lblCodigoRol.Name = "lblCodigoRol";
-            this.lblCodigoRol.Size = new System.Drawing.Size(35, 13);
-            this.lblCodigoRol.TabIndex = 13;
-            this.lblCodigoRol.Tag = "lbl.codigoRol";
-            this.lblCodigoRol.Text = "label1";
-            // 
-            // lblNombreRol
-            // 
-            this.lblNombreRol.AutoSize = true;
-            this.lblNombreRol.Location = new System.Drawing.Point(423, 178);
-            this.lblNombreRol.Name = "lblNombreRol";
-            this.lblNombreRol.Size = new System.Drawing.Size(35, 13);
-            this.lblNombreRol.TabIndex = 14;
-            this.lblNombreRol.Tag = "lbl.nombreRol";
-            this.lblNombreRol.Text = "label2";
             // 
             // GestionRoles
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1036, 580);
-            this.Controls.Add(this.lblNombreRol);
-            this.Controls.Add(this.lblCodigoRol);
-            this.Controls.Add(this.lblPermisos);
-            this.Controls.Add(this.lblRoles);
-            this.Controls.Add(this.lblUsuarios);
+            this.ClientSize = new System.Drawing.Size(740, 530);
             this.Controls.Add(this.btnQuitarRol);
             this.Controls.Add(this.btnAsignarRol);
             this.Controls.Add(this.cboUsuarios);
-            this.Controls.Add(this.btnGuardarPermisos);
-            this.Controls.Add(this.clbPermisos);
+            this.Controls.Add(this.lblUsuarios);
+            this.Controls.Add(this.btnQuitarHijo);
+            this.Controls.Add(this.btnAgregarHijo);
+            this.Controls.Add(this.lstDisponibles);
+            this.Controls.Add(this.lblPermisos);
             this.Controls.Add(this.btnEliminarRol);
             this.Controls.Add(this.btnCrearRol);
             this.Controls.Add(this.txtNombreRol);
+            this.Controls.Add(this.lblNombreRol);
             this.Controls.Add(this.txtCodigoRol);
-            this.Controls.Add(this.listBoxRoles);
+            this.Controls.Add(this.lblCodigoRol);
+            this.Controls.Add(this.lblRoles);
+            this.Controls.Add(this.treeRoles);
             this.Name = "GestionRoles";
             this.Tag = "titulo.gestionRoles";
             this.Text = "GestionRoles";
             this.ResumeLayout(false);
             this.PerformLayout();
-
         }
 
         #endregion
 
-        private System.Windows.Forms.ListBox listBoxRoles;
+        private System.Windows.Forms.TreeView treeRoles;
+        private System.Windows.Forms.ListBox lstDisponibles;
         private System.Windows.Forms.TextBox txtCodigoRol;
         private System.Windows.Forms.TextBox txtNombreRol;
         private System.Windows.Forms.Button btnCrearRol;
         private System.Windows.Forms.Button btnEliminarRol;
-        private System.Windows.Forms.CheckedListBox clbPermisos;
-        private System.Windows.Forms.Button btnGuardarPermisos;
+        private System.Windows.Forms.Button btnAgregarHijo;
+        private System.Windows.Forms.Button btnQuitarHijo;
         private System.Windows.Forms.ComboBox cboUsuarios;
         private System.Windows.Forms.Button btnAsignarRol;
         private System.Windows.Forms.Button btnQuitarRol;

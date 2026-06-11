@@ -15,17 +15,54 @@ namespace UI
         {
             InitializeComponent();
             principal = main;
-            CargarRoles();
+            CargarArbol();
             CargarUsuarios();
+            CargarDisponibles();
         }
 
-        // === Cargas iniciales ===
+        // ---------- Carga ----------
 
-        private void CargarRoles()
+        private void CargarArbol()
         {
-            listBoxRoles.DataSource = null;
-            listBoxRoles.DataSource = gestor.ObtenerGrupos();
-            listBoxRoles.DisplayMember = "Nombre";
+            treeRoles.BeginUpdate();
+            treeRoles.Nodes.Clear();
+
+            // Cada grupo se muestra como raíz con su subárbol completo (recursivo).
+            foreach (var grupo in gestor.ObtenerGrupos())
+            {
+                var arbol = gestor.ObtenerArbolDe(grupo.Codigo);
+                treeRoles.Nodes.Add(ConstruirNodo(arbol));
+            }
+
+            // Permisos simples que NO están dentro de ningún grupo se muestran sueltos.
+            var todos = gestor.ObtenerTodos();
+            var simples = todos.OfType<PermisoSimple>();
+            var hijosDeAlguien = new HashSet<int>(
+                gestor.ObtenerGrupos()
+                      .SelectMany(g => gestor.ObtenerHijosDirectos(g.Codigo))
+                      .Select(c => c.Id));
+
+            foreach (var p in simples.Where(p => !hijosDeAlguien.Contains(p.Id)))
+                treeRoles.Nodes.Add(ConstruirNodo(p));
+
+            treeRoles.ExpandAll();
+            treeRoles.EndUpdate();
+        }
+
+        private TreeNode ConstruirNodo(ComponentePermiso comp)
+        {
+            string etiqueta = comp is GrupoPermiso
+                ? $"[Grupo] {comp.Codigo} - {comp.Nombre}"
+                : $"{comp.Codigo} - {comp.Nombre}";
+
+            var nodo = new TreeNode(etiqueta) { Tag = comp };
+
+            if (comp is GrupoPermiso grupo)
+            {
+                foreach (var hijo in grupo.ObtenerHijos())
+                    nodo.Nodes.Add(ConstruirNodo(hijo));
+            }
+            return nodo;
         }
 
         private void CargarUsuarios()
@@ -35,26 +72,42 @@ namespace UI
             cboUsuarios.DisplayMember = "User";
         }
 
-        private void CargarPermisosDelRol()
+        private void CargarDisponibles()
         {
-            clbPermisos.Items.Clear();
-            if (listBoxRoles.SelectedItem == null) return;
+            // Lista lateral: todos los componentes (para elegir hijo a agregar).
+            var seleccionado = NodoSeleccionado();
+            var todos = gestor.ObtenerTodos();
 
-            var rolSeleccionado = (GrupoPermiso)listBoxRoles.SelectedItem;
-            var hijosActuales = gestor.ObtenerHijosDirectos(rolSeleccionado.Codigo);
-            var codigosActuales = new HashSet<string>(hijosActuales.Select(h => h.Codigo));
+            if (seleccionado is GrupoPermiso grupo)
+            {
+                var hijosDirectos = new HashSet<string>(
+                    gestor.ObtenerHijosDirectos(grupo.Codigo).Select(h => h.Codigo));
+                // Mostrar solo los que aún no son hijos directos y que no sean él mismo.
+                todos = todos
+                    .Where(c => c.Codigo != grupo.Codigo && !hijosDirectos.Contains(c.Codigo))
+                    .ToList();
+            }
 
-            // Todos los componentes menos el rol que estoy editando (evita auto-referencia)
-            var todos = gestor.ObtenerTodos()
-                .Where(c => c.Codigo != rolSeleccionado.Codigo);
-
-            foreach (var comp in todos)
-                clbPermisos.Items.Add(comp, codigosActuales.Contains(comp.Codigo));
-
-            clbPermisos.DisplayMember = "Codigo";
+            lstDisponibles.DataSource = null;
+            lstDisponibles.DataSource = todos;
+            lstDisponibles.DisplayMember = "Codigo";
         }
 
-        // === Roles: crear / eliminar ===
+        // ---------- Helpers ----------
+
+        private ComponentePermiso NodoSeleccionado()
+        {
+            return treeRoles.SelectedNode?.Tag as ComponentePermiso;
+        }
+
+        private ComponentePermiso PadreSeleccionado()
+        {
+            var nodo = treeRoles.SelectedNode;
+            return nodo?.Parent?.Tag as ComponentePermiso;
+        }
+
+        // ---------- Acciones ----------
+
         private void btnCrearRol_Click(object sender, EventArgs e)
         {
             try
@@ -69,7 +122,8 @@ namespace UI
                 gestor.CrearGrupo(codigo, nombre);
                 txtCodigoRol.Clear();
                 txtNombreRol.Clear();
-                CargarRoles();
+                CargarArbol();
+                CargarDisponibles();
                 MessageBox.Show($"Rol '{codigo}' creado.");
             }
             catch (Exception ex)
@@ -80,20 +134,21 @@ namespace UI
 
         private void btnEliminarRol_Click(object sender, EventArgs e)
         {
-            if (listBoxRoles.SelectedItem == null)
+            var seleccionado = NodoSeleccionado();
+            if (!(seleccionado is GrupoPermiso grupo))
             {
-                MessageBox.Show("Seleccioná un rol.");
+                MessageBox.Show("Seleccioná un rol (grupo) para eliminar.");
                 return;
             }
-            var rol = (GrupoPermiso)listBoxRoles.SelectedItem;
-            if (MessageBox.Show($"¿Eliminar el rol '{rol.Codigo}'?", "Confirmar",
+
+            if (MessageBox.Show($"¿Eliminar el rol '{grupo.Codigo}'?", "Confirmar",
                 MessageBoxButtons.YesNo) != DialogResult.Yes) return;
 
             try
             {
-                gestor.Eliminar(rol.Codigo);
-                CargarRoles();
-                clbPermisos.Items.Clear();
+                gestor.Eliminar(grupo.Codigo);
+                CargarArbol();
+                CargarDisponibles();
             }
             catch (Exception ex)
             {
@@ -101,32 +156,26 @@ namespace UI
             }
         }
 
-        // === Permisos del rol: guardar cambios ===
-
-        private void btnGuardarPermisos_Click(object sender, EventArgs e)
+        private void btnAgregarHijo_Click(object sender, EventArgs e)
         {
-            if (listBoxRoles.SelectedItem == null)
+            var seleccionado = NodoSeleccionado();
+            if (!(seleccionado is GrupoPermiso grupo))
             {
-                MessageBox.Show("Seleccioná un rol.");
+                MessageBox.Show("Seleccioná un grupo en el árbol al que agregarle un hijo.");
                 return;
             }
-            var rol = (GrupoPermiso)listBoxRoles.SelectedItem;
+            var hijo = lstDisponibles.SelectedItem as ComponentePermiso;
+            if (hijo == null)
+            {
+                MessageBox.Show("Seleccioná un componente de la lista para agregar.");
+                return;
+            }
 
             try
             {
-                var actuales = new HashSet<string>(
-                    gestor.ObtenerHijosDirectos(rol.Codigo).Select(h => h.Codigo));
-
-                var deseados = new HashSet<string>(
-                    clbPermisos.CheckedItems.Cast<ComponentePermiso>().Select(c => c.Codigo));
-
-                foreach (var codigo in deseados.Except(actuales))
-                    gestor.AgregarHijo(rol.Codigo, codigo);
-
-                foreach (var codigo in actuales.Except(deseados))
-                    gestor.QuitarHijo(rol.Codigo, codigo);
-
-                MessageBox.Show("Permisos del rol actualizados.");
+                gestor.AgregarHijo(grupo.Codigo, hijo.Codigo);
+                CargarArbol();
+                CargarDisponibles();
             }
             catch (Exception ex)
             {
@@ -134,22 +183,42 @@ namespace UI
             }
         }
 
-        // === Asignar / quitar rol a un usuario ===
+        private void btnQuitarHijo_Click(object sender, EventArgs e)
+        {
+            var hijo = NodoSeleccionado();
+            var padre = PadreSeleccionado();
+            if (hijo == null || !(padre is GrupoPermiso grupoPadre))
+            {
+                MessageBox.Show("Seleccioná un nodo hijo (uno que cuelgue de un grupo) para quitarlo.");
+                return;
+            }
+
+            try
+            {
+                gestor.QuitarHijo(grupoPadre.Codigo, hijo.Codigo);
+                CargarArbol();
+                CargarDisponibles();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error: " + ex.Message);
+            }
+        }
 
         private void btnAsignarRol_Click(object sender, EventArgs e)
         {
-            if (listBoxRoles.SelectedItem == null || cboUsuarios.SelectedItem == null)
+            var seleccionado = NodoSeleccionado();
+            if (!(seleccionado is GrupoPermiso grupo) || cboUsuarios.SelectedItem == null)
             {
-                MessageBox.Show("Seleccioná un rol y un usuario.");
+                MessageBox.Show("Seleccioná un rol (grupo) y un usuario.");
                 return;
             }
-            var rol = (GrupoPermiso)listBoxRoles.SelectedItem;
             var usuario = (Usuario)cboUsuarios.SelectedItem;
 
             try
             {
-                gestor.AsignarAUsuario(usuario.Id, rol.Codigo);
-                MessageBox.Show($"Rol '{rol.Codigo}' asignado a {usuario.User}.");
+                gestor.AsignarAUsuario(usuario.Id, grupo.Codigo);
+                MessageBox.Show($"Rol '{grupo.Codigo}' asignado a {usuario.User}.");
             }
             catch (Exception ex)
             {
@@ -159,18 +228,18 @@ namespace UI
 
         private void btnQuitarRol_Click(object sender, EventArgs e)
         {
-            if (listBoxRoles.SelectedItem == null || cboUsuarios.SelectedItem == null)
+            var seleccionado = NodoSeleccionado();
+            if (!(seleccionado is GrupoPermiso grupo) || cboUsuarios.SelectedItem == null)
             {
-                MessageBox.Show("Seleccioná un rol y un usuario.");
+                MessageBox.Show("Seleccioná un rol (grupo) y un usuario.");
                 return;
             }
-            var rol = (GrupoPermiso)listBoxRoles.SelectedItem;
             var usuario = (Usuario)cboUsuarios.SelectedItem;
 
             try
             {
-                gestor.QuitarDeUsuario(usuario.Id, rol.Codigo);
-                MessageBox.Show($"Rol '{rol.Codigo}' quitado a {usuario.User}.");
+                gestor.QuitarDeUsuario(usuario.Id, grupo.Codigo);
+                MessageBox.Show($"Rol '{grupo.Codigo}' quitado a {usuario.User}.");
             }
             catch (Exception ex)
             {
@@ -178,9 +247,9 @@ namespace UI
             }
         }
 
-        private void listBoxRoles_SelectedIndexChanged_1(object sender, EventArgs e)
+        private void treeRoles_AfterSelect(object sender, TreeViewEventArgs e)
         {
-            CargarPermisosDelRol();
+            CargarDisponibles();
         }
     }
 }
