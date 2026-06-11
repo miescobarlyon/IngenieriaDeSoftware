@@ -21,8 +21,6 @@ namespace UI
             ConfigurarGrilla();
         }
 
-        // ── Load ──────────────────────────────────────────────────────────────
-
         private void GestionUsuarios_Load(object sender, EventArgs e)
         {
             CargarUsuarios();
@@ -30,15 +28,11 @@ namespace UI
             ActualizarBotones();
         }
 
-        // ── IIdiomaObserver override ──────────────────────────────────────────
-
         public override void CambiarIdioma(BE.Idioma idioma)
         {
             base.CambiarIdioma(idioma);
             ActualizarEncabezados();
         }
-
-        // ── Grid setup ────────────────────────────────────────────────────────
 
         private void ConfigurarGrilla()
         {
@@ -77,7 +71,7 @@ namespace UI
 
             var colEstado = new DataGridViewTextBoxColumn();
             colEstado.Name = "Estado";
-            colEstado.DataPropertyName = "Estado";   // computed property on BE.Usuario
+            colEstado.DataPropertyName = "Estado";
             colEstado.HeaderText = svc.Traducir("lbl.estado");
             colEstado.Width = 100;
 
@@ -98,21 +92,12 @@ namespace UI
             if (cols["Estado"] != null) cols["Estado"].HeaderText = svc.Traducir("lbl.estado");
         }
 
-        // ── Data ──────────────────────────────────────────────────────────────
-
         private void CargarUsuarios()
         {
             dataGridViewUsuarios.DataSource = null;
             dataGridViewUsuarios.DataSource = UsuarioService.ListarActivos();
         }
 
-        // ── Button state ──────────────────────────────────────────────────────
-
-        /// <summary>
-        /// Enables/disables action buttons based on whether a row is selected.
-        /// Also updates the block/unblock button text to reflect the selected
-        /// user's current state.
-        /// </summary>
         private void ActualizarBotones()
         {
             bool haySeleccion = ObtenerUsuarioSeleccionado() != null;
@@ -143,8 +128,6 @@ namespace UI
             if (dataGridViewUsuarios.CurrentRow == null) return null;
             return dataGridViewUsuarios.CurrentRow.DataBoundItem as BE.Usuario;
         }
-
-        // ── Button handlers ───────────────────────────────────────────────────
 
         private void buttonAgregar_Click(object sender, EventArgs e)
         {
@@ -191,8 +174,6 @@ namespace UI
             ActualizarBotones();
         }
 
-        // ── Error display ─────────────────────────────────────────────────────
-
         private void ErrorManager_OnOcurrioError(object sender, BE.Error e)
         {
             MessageBoxIcon icon;
@@ -206,8 +187,6 @@ namespace UI
             }
             MessageBox.Show(e.Mensaje, "Notificación", MessageBoxButtons.OK, icon);
         }
-
-        // ── Cleanup ───────────────────────────────────────────────────────────
 
         protected override void Dispose(bool disposing)
         {

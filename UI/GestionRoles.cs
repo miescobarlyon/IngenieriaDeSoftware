@@ -20,21 +20,17 @@ namespace UI
             CargarDisponibles();
         }
 
-        // ---------- Carga ----------
-
         private void CargarArbol()
         {
             treeRoles.BeginUpdate();
             treeRoles.Nodes.Clear();
 
-            // Cada grupo se muestra como raíz con su subárbol completo (recursivo).
             foreach (var grupo in gestor.ObtenerGrupos())
             {
                 var arbol = gestor.ObtenerArbolDe(grupo.Codigo);
                 treeRoles.Nodes.Add(ConstruirNodo(arbol));
             }
 
-            // Permisos simples que NO están dentro de ningún grupo se muestran sueltos.
             var todos = gestor.ObtenerTodos();
             var simples = todos.OfType<PermisoSimple>();
             var hijosDeAlguien = new HashSet<int>(
@@ -74,7 +70,6 @@ namespace UI
 
         private void CargarDisponibles()
         {
-            // Lista lateral: todos los componentes (para elegir hijo a agregar).
             var seleccionado = NodoSeleccionado();
             var todos = gestor.ObtenerTodos();
 
@@ -82,7 +77,6 @@ namespace UI
             {
                 var hijosDirectos = new HashSet<string>(
                     gestor.ObtenerHijosDirectos(grupo.Codigo).Select(h => h.Codigo));
-                // Mostrar solo los que aún no son hijos directos y que no sean él mismo.
                 todos = todos
                     .Where(c => c.Codigo != grupo.Codigo && !hijosDirectos.Contains(c.Codigo))
                     .ToList();
@@ -92,8 +86,6 @@ namespace UI
             lstDisponibles.DataSource = todos;
             lstDisponibles.DisplayMember = "Codigo";
         }
-
-        // ---------- Helpers ----------
 
         private ComponentePermiso NodoSeleccionado()
         {
@@ -105,8 +97,6 @@ namespace UI
             var nodo = treeRoles.SelectedNode;
             return nodo?.Parent?.Tag as ComponentePermiso;
         }
-
-        // ---------- Acciones ----------
 
         private void btnCrearRol_Click(object sender, EventArgs e)
         {
