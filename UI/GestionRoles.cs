@@ -19,8 +19,6 @@ namespace UI
             CargarUsuarios();
         }
 
-        // === Cargas iniciales ===
-
         private void CargarRoles()
         {
             listBoxRoles.DataSource = null;
@@ -44,7 +42,6 @@ namespace UI
             var hijosActuales = gestor.ObtenerHijosDirectos(rolSeleccionado.Codigo);
             var codigosActuales = new HashSet<string>(hijosActuales.Select(h => h.Codigo));
 
-            // Todos los componentes menos el rol que estoy editando (evita auto-referencia)
             var todos = gestor.ObtenerTodos()
                 .Where(c => c.Codigo != rolSeleccionado.Codigo);
 
@@ -54,7 +51,6 @@ namespace UI
             clbPermisos.DisplayMember = "Codigo";
         }
 
-        // === Roles: crear / eliminar ===
         private void btnCrearRol_Click(object sender, EventArgs e)
         {
             try
@@ -101,8 +97,6 @@ namespace UI
             }
         }
 
-        // === Permisos del rol: guardar cambios ===
-
         private void btnGuardarPermisos_Click(object sender, EventArgs e)
         {
             if (listBoxRoles.SelectedItem == null)
@@ -133,8 +127,6 @@ namespace UI
                 MessageBox.Show("Error: " + ex.Message);
             }
         }
-
-        // === Asignar / quitar rol a un usuario ===
 
         private void btnAsignarRol_Click(object sender, EventArgs e)
         {

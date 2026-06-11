@@ -43,6 +43,8 @@ namespace BLL
             if (padre.Id == hijo.Id)
                 throw new InvalidOperationException("Un componente no puede contenerse a sí mismo.");
 
+            if(mapper.TraerHijos(hijo.Id).Any(h => h.Id == padre.Id))
+                throw new InvalidOperationException($"'{codigoPadre}' ya contiene a '{codigoHijo}'.");  
             mapper.AgregarHijo(padre.Id, hijo.Id);
         }
 
