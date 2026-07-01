@@ -68,30 +68,56 @@ namespace UI
 
             var grupos = gestor.ObtenerGrupos();
 
-            // Todo lo que es hijo directo de ALGÚN grupo (grupos o permisos simples).
-            // Nos sirve para saber qué NO debe aparecer como raíz del árbol.
+            // Todo lo que es hijo directo de ALGÚN grupo (para saber qué permisos simples
+            // están sueltos y cuáles ya pertenecen a un grupo).
             var hijosDeAlguien = new HashSet<int>(
                 grupos.SelectMany(g => gestor.ObtenerHijosDirectos(g.Codigo))
                       .Select(c => c.Id));
 
-            // Solo los grupos "raíz" (los que no cuelgan de ningún otro) van arriba.
-            // Los subgrupos ya aparecen anidados dentro de su padre, no repetidos arriba.
-            foreach (var grupo in grupos.Where(g => !hijosDeAlguien.Contains(g.Id)))
+            // TODOS los grupos se muestran arriba, así siempre podés ver y gestionar
+            // cualquier rol aunque esté anidado dentro de otro. Los subgrupos anidados
+            // se muestran como referencia (ver ConstruirNodoResumen), no se re-expanden.
+            foreach (var grupo in grupos)
             {
                 var arbol = gestor.ObtenerArbolDe(grupo.Codigo);
-                treeRoles.Nodes.Add(ConstruirNodo(arbol));
+                treeRoles.Nodes.Add(ConstruirNodoResumen(arbol, esRaiz: true));
             }
 
-            // Permisos simples sueltos (los que no pertenecen a ningún grupo).
+            // Permisos simples que no pertenecen a ningún grupo (sueltos).
             var simplesSueltos = gestor.ObtenerTodos()
                 .OfType<PermisoSimple>()
                 .Where(p => !hijosDeAlguien.Contains(p.Id));
 
             foreach (var p in simplesSueltos)
-                treeRoles.Nodes.Add(ConstruirNodo(p));
+                treeRoles.Nodes.Add(ConstruirNodoResumen(p, esRaiz: true));
 
             treeRoles.ExpandAll();
             treeRoles.EndUpdate();
+        }
+
+        // Árbol de administración (treeRoles): expande el grupo raíz, pero si un grupo
+        // aparece ANIDADO dentro de otro lo muestra como referencia, sin volver a
+        // expandir su contenido. Evita duplicar subárboles enteros y, a la vez,
+        // deja que todo grupo siga visible en su propio nodo del nivel superior.
+        private TreeNode ConstruirNodoResumen(ComponentePermiso comp, bool esRaiz)
+        {
+            bool esGrupo = comp is GrupoPermiso;
+
+            string etiqueta = esGrupo
+                ? $"[Grupo] {comp.Codigo} - {comp.Nombre}"
+                : $"{comp.Codigo} - {comp.Nombre}";
+
+            ;
+
+            var nodo = new TreeNode(etiqueta) { Tag = comp };
+
+            if (esGrupo && esRaiz)
+            {
+                foreach (var hijo in ((GrupoPermiso)comp).ObtenerHijos())
+                    nodo.Nodes.Add(ConstruirNodoResumen(hijo, esRaiz: false));
+            }
+
+            return nodo;
         }
 
         private TreeNode ConstruirNodo(ComponentePermiso comp)
