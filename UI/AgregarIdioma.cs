@@ -97,13 +97,16 @@ namespace UI
                 listBoxIdiomas.Items.Add($"{idioma.Nombre}  ({idioma.Codigo})");
         }
 
+        private const string SUFIJO_DEFAULT = " *";   // marca placeholder para la demo
+
         private void CargarTraduccionesReferencia()
         {
             dataGridViewTraducciones.Rows.Clear();
             var referencia = BLL.IdiomaService.GetInstance()
                                 .ListarTraducciones(IDIOMA_REFERENCIA_ID);
+
             foreach (var t in referencia)
-                dataGridViewTraducciones.Rows.Add(t.Clave, t.Texto, string.Empty);
+                dataGridViewTraducciones.Rows.Add(t.Clave, t.Texto, t.Texto + SUFIJO_DEFAULT);
         }
 
         private void buttonGuardar_Click(object sender, EventArgs e)
@@ -143,6 +146,8 @@ namespace UI
                 );
 
                 LimpiarFormulario();
+                CargarTraduccionesReferencia();
+
             }
             catch (Exception ex)
             {
