@@ -26,6 +26,10 @@ namespace BLL
                 throw new InvalidOperationException(
                     "No se pueden eliminar permisos simples, solo grupos.");
 
+            if (componente.Codigo == CodigoAdmin && ContarAdminsOperativos() >= 1)
+                throw new InvalidOperationException(
+                    "No se puede eliminar el rol ADMIN: hay administradores que dependen de él.");
+
             mapper.Eliminar(componente);
         }
 
@@ -49,9 +53,14 @@ namespace BLL
                     $"generaría una referencia circular " +
                     $"('{codigoPadre}' ya pertenece al árbol de '{codigoHijo}').");
 
+            if (EstaEnSubArbol(padre.Id, hijo.Id))
+                throw new InvalidOperationException(
+                    $"'{codigoPadre}' ya incluye a '{codigoHijo}' (directa o indirectamente). " +
+                    $"No hace falta agregarlo de nuevo.");
+
             mapper.AgregarHijo(padre.Id, hijo.Id);
         }
-        private bool EstaEnSubArbol(int idRaiz, int idObjetivo)
+        private bool EstaEnSubArbol(int idRaiz, int idObjetivo) //esta funcion la hice para chequear redundancia
         {
             var visitados = new HashSet<int>();
             var pila = new Stack<int>();
@@ -102,6 +111,10 @@ namespace BLL
         {
             var componente = mapper.TraerPorCodigo(codigoComponente)
                 ?? throw new KeyNotFoundException($"No existe el componente '{codigoComponente}'.");
+
+            if (componente.Codigo == CodigoAdmin && EsAdmin(idUsuario) && ContarAdminsOperativos() <= 1)
+                throw new InvalidOperationException(
+                    "No se puede quitar el rol de administrador: debe quedar al menos un administrador operativo en el sistema.");
 
             mapper.QuitarDeUsuario(idUsuario, componente.Id);
         }
@@ -157,14 +170,31 @@ namespace BLL
             return ObtenerPermisosDeUsuario(idUsuario).Tiene(codigoPermiso);
         }
 
+       
+        public const string CodigoAdmin = "ADMIN";
+
+        public bool EsAdmin(int idUsuario)
+        {
+            return ObtenerPermisosDeUsuario(idUsuario).Tiene(CodigoAdmin);
+        }
+
+
+        public int ContarAdminsOperativos()
+        {
+            return BLL.UsuarioService.ListarActivos()
+                .Where(u => u.Bloqueado == 0)
+                .Count(u => EsAdmin(u.Id));
+        }
+
         private void LlenarHijos(ComponentePermiso componente, HashSet<int> visitados)
         {
             if (!(componente is GrupoPermiso)) return;
-            if (!visitados.Add(componente.Id)) return;
 
             GrupoPermiso grupo = (GrupoPermiso)componente;
             foreach (var hijo in mapper.TraerHijos(componente.Id))
             {
+                if (!visitados.Add(hijo.Id)) continue;
+
                 LlenarHijos(hijo, visitados);
                 grupo.Agregar(hijo);
             }

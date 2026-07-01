@@ -18,6 +18,47 @@ namespace UI
             CargarArbol();
             CargarUsuarios();
             CargarDisponibles();
+
+            cboUsuarios.SelectedIndexChanged += cboUsuarios_SelectedIndexChanged;
+            CargarPermisosUsuario();
+        }
+
+        private void cboUsuarios_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            CargarPermisosUsuario();
+        }
+
+        // Muestra en treeUsuario el árbol de permisos efectivo del usuario elegido.
+        private void CargarPermisosUsuario()
+        {
+            treeUsuario.BeginUpdate();
+            treeUsuario.Nodes.Clear();
+
+            var usuario = cboUsuarios.SelectedItem as Usuario;
+            if (usuario != null)
+            {
+                var arbol = gestor.ObtenerPermisosDeUsuario(usuario.Id);
+
+                // ObtenerPermisosDeUsuario devuelve un nodo artificial "ROOT"/"EMPTY"
+                // cuando el usuario tiene varios (o ningún) permiso directo:
+                // en ese caso mostramos sus hijos como raíces, no el nodo artificial.
+                if (arbol is GrupoPermiso && (arbol.Codigo == "ROOT" || arbol.Codigo == "EMPTY"))
+                {
+                    var hijos = ((GrupoPermiso)arbol).ObtenerHijos();
+                    if (hijos.Count == 0)
+                        treeUsuario.Nodes.Add(new TreeNode("(sin permisos asignados)"));
+                    else
+                        foreach (var h in hijos)
+                            treeUsuario.Nodes.Add(ConstruirNodo(h));
+                }
+                else
+                {
+                    treeUsuario.Nodes.Add(ConstruirNodo(arbol));
+                }
+            }
+
+            treeUsuario.ExpandAll();
+            treeUsuario.EndUpdate();
         }
 
         private void CargarArbol()
@@ -25,20 +66,28 @@ namespace UI
             treeRoles.BeginUpdate();
             treeRoles.Nodes.Clear();
 
-            foreach (var grupo in gestor.ObtenerGrupos())
+            var grupos = gestor.ObtenerGrupos();
+
+            // Todo lo que es hijo directo de ALGÚN grupo (grupos o permisos simples).
+            // Nos sirve para saber qué NO debe aparecer como raíz del árbol.
+            var hijosDeAlguien = new HashSet<int>(
+                grupos.SelectMany(g => gestor.ObtenerHijosDirectos(g.Codigo))
+                      .Select(c => c.Id));
+
+            // Solo los grupos "raíz" (los que no cuelgan de ningún otro) van arriba.
+            // Los subgrupos ya aparecen anidados dentro de su padre, no repetidos arriba.
+            foreach (var grupo in grupos.Where(g => !hijosDeAlguien.Contains(g.Id)))
             {
                 var arbol = gestor.ObtenerArbolDe(grupo.Codigo);
                 treeRoles.Nodes.Add(ConstruirNodo(arbol));
             }
 
-            var todos = gestor.ObtenerTodos();
-            var simples = todos.OfType<PermisoSimple>();
-            var hijosDeAlguien = new HashSet<int>(
-                gestor.ObtenerGrupos()
-                      .SelectMany(g => gestor.ObtenerHijosDirectos(g.Codigo))
-                      .Select(c => c.Id));
+            // Permisos simples sueltos (los que no pertenecen a ningún grupo).
+            var simplesSueltos = gestor.ObtenerTodos()
+                .OfType<PermisoSimple>()
+                .Where(p => !hijosDeAlguien.Contains(p.Id));
 
-            foreach (var p in simples.Where(p => !hijosDeAlguien.Contains(p.Id)))
+            foreach (var p in simplesSueltos)
                 treeRoles.Nodes.Add(ConstruirNodo(p));
 
             treeRoles.ExpandAll();
@@ -124,7 +173,7 @@ namespace UI
 
         private void btnEliminarRol_Click(object sender, EventArgs e)
         {
-            var seleccionado = NodoSeleccionado();
+            var seleccionado = treeRoles.SelectedNode?.Tag as ComponentePermiso;
             if (!(seleccionado is GrupoPermiso grupo))
             {
                 MessageBox.Show("Seleccioná un rol (grupo) para eliminar.");
@@ -208,6 +257,7 @@ namespace UI
             try
             {
                 gestor.AsignarAUsuario(usuario.Id, grupo.Codigo);
+                CargarPermisosUsuario();
                 MessageBox.Show($"Rol '{grupo.Codigo}' asignado a {usuario.User}.");
             }
             catch (Exception ex)
@@ -218,7 +268,7 @@ namespace UI
 
         private void btnQuitarRol_Click(object sender, EventArgs e)
         {
-            var seleccionado = NodoSeleccionado();
+            var seleccionado = treeUsuario.SelectedNode?.Tag as ComponentePermiso;
             if (!(seleccionado is GrupoPermiso grupo) || cboUsuarios.SelectedItem == null)
             {
                 MessageBox.Show("Seleccioná un rol (grupo) y un usuario.");
@@ -229,6 +279,7 @@ namespace UI
             try
             {
                 gestor.QuitarDeUsuario(usuario.Id, grupo.Codigo);
+                CargarPermisosUsuario();
                 MessageBox.Show($"Rol '{grupo.Codigo}' quitado a {usuario.User}.");
             }
             catch (Exception ex)

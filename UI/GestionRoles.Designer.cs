@@ -33,6 +33,8 @@
             this.lblPermisos = new System.Windows.Forms.Label();
             this.lblCodigoRol = new System.Windows.Forms.Label();
             this.lblNombreRol = new System.Windows.Forms.Label();
+            this.treeUsuario = new System.Windows.Forms.TreeView();
+            this.lblPermisosUsuario = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // treeRoles
@@ -189,11 +191,29 @@
             this.btnQuitarRol.UseVisualStyleBackColor = true;
             this.btnQuitarRol.Click += new System.EventHandler(this.btnQuitarRol_Click);
             // 
+            // lblPermisosUsuario
+            // 
+            this.lblPermisosUsuario.AutoSize = true;
+            this.lblPermisosUsuario.Location = new System.Drawing.Point(745, 9);
+            this.lblPermisosUsuario.Name = "lblPermisosUsuario";
+            this.lblPermisosUsuario.Size = new System.Drawing.Size(35, 13);
+            this.lblPermisosUsuario.TabIndex = 16;
+            this.lblPermisosUsuario.Text = "Permisos del usuario seleccionado";
+            // 
+            // treeUsuario
+            // 
+            this.treeUsuario.Location = new System.Drawing.Point(745, 30);
+            this.treeUsuario.Name = "treeUsuario";
+            this.treeUsuario.Size = new System.Drawing.Size(250, 480);
+            this.treeUsuario.TabIndex = 17;
+            // 
             // GestionRoles
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(740, 530);
+            this.ClientSize = new System.Drawing.Size(1010, 530);
+            this.Controls.Add(this.lblPermisosUsuario);
+            this.Controls.Add(this.treeUsuario);
             this.Controls.Add(this.btnQuitarRol);
             this.Controls.Add(this.btnAsignarRol);
             this.Controls.Add(this.cboUsuarios);
@@ -235,5 +255,7 @@
         private System.Windows.Forms.Label lblPermisos;
         private System.Windows.Forms.Label lblCodigoRol;
         private System.Windows.Forms.Label lblNombreRol;
+        private System.Windows.Forms.TreeView treeUsuario;
+        private System.Windows.Forms.Label lblPermisosUsuario;
     }
 }
