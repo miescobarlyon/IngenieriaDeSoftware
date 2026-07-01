@@ -111,6 +111,9 @@
     <Compile Include="TranslatableForm.cs">
       <SubType>Form</SubType>
     </Compile>
+    <EmbeddedResource Include="AgregarIdioma.resx">
+      <DependentUpon>AgregarIdioma.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Bitacora.resx">
       <DependentUpon>Bitacora.cs</DependentUpon>
     </EmbeddedResource>

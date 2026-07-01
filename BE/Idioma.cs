@@ -28,7 +28,7 @@ namespace BE
 
         public override string ToString()
         {
-            return nombre;
+            return $"{nombre}  ({codigo})";
         }
     }
 }
