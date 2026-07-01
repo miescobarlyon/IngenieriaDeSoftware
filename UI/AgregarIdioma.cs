@@ -175,7 +175,7 @@ namespace UI
                 );
 
                 LimpiarFormulario();
-                CambiarIdioma(nuevoIdioma);
+                BLL.IdiomaService.GetInstance().CambiarIdioma(nuevoIdioma.Id);
             }
             catch (Exception ex)
             {
