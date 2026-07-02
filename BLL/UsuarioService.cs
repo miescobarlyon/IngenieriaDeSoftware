@@ -148,6 +148,9 @@ namespace BLL
             if (usuario.Id == 0)
             {
                 mapper.Agregar(usuario, SessionManager.GetUsuario());
+                int usuarioId = mapper.TraerUsuario(usuario.User).Id;
+                usuario.Id = usuarioId;
+                mapper.AltaEnHistorial(usuario, SessionManager.GetUsuario());
                 BitacoraService.Guardar(new BE.Bitacora
                 {
                     Usuario = usuario,
