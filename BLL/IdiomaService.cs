@@ -57,22 +57,57 @@ namespace BLL
 
         public List<BE.Idioma> ListarIdiomas() => new DAL.MP_Idioma().Listar();
 
-        public BE.Idioma AgregarIdioma(string nombre, string codigo)
+        public BE.Idioma Guardar(BE.Idioma i)
         {
-            var idioma = new BE.Idioma { Nombre = nombre, Codigo = codigo };
-            idioma = new DAL.MP_Idioma().AgregarYObtener(idioma);
-            OnIdiomaAgregado?.Invoke(this, idioma);
-            return idioma;
+            if (i.Id == 0)
+            {
+                BE.Idioma idioma = new BE.Idioma { Nombre = i.Nombre, Codigo = i.Codigo };
+                idioma = new DAL.MP_Idioma().AgregarYObtener(idioma);
+                OnIdiomaAgregado?.Invoke(this, idioma);
+                return idioma;
+            }
+            else
+            {
+                ModificarIdioma(i);
+                return i;
+            }
+
         }
 
-        public void AgregarTraducciones(List<BE.Traduccion> traducciones)
+        public void ModificarIdioma(BE.Idioma idioma)
+        {
+            if (idioma == null) throw new ArgumentNullException(nameof(idioma));
+            new DAL.MP_Idioma().Modificar(idioma);
+            if (_idiomaActual != null && _idiomaActual.Id == idioma.Id)
+                _idiomaActual = idioma;
+        }
+
+        public void Guardar(List<BE.Traduccion> traducciones)
+        {
+            if (traducciones == null || traducciones.Count == 0) return;
+            var mapper = new DAL.MP_Traduccion();
+            foreach (var t in traducciones)
+            {
+                if (!string.IsNullOrWhiteSpace(t.Texto) && t.Id == 0)
+                {
+                    mapper.Agregar(t);
+                }
+                else if (!string.IsNullOrWhiteSpace(t.Texto))
+                {
+                    mapper.Modificar(t);
+                }
+            }
+            _tradService.InvalidarCache();
+        }
+
+        public void ModificarTraducciones(List<BE.Traduccion> traducciones)
         {
             if (traducciones == null || traducciones.Count == 0) return;
             var mapper = new DAL.MP_Traduccion();
             foreach (var t in traducciones)
             {
                 if (!string.IsNullOrWhiteSpace(t.Texto))
-                    mapper.Agregar(t);
+                    mapper.Modificar(t);
             }
             _tradService.InvalidarCache();
         }

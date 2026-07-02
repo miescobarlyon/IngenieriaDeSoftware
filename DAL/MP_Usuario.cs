@@ -120,6 +120,24 @@ namespace DAL
             return res;
         }
 
+        public int AltaEnHistorial(Usuario usuario, Usuario modificador)
+        {
+            acceso = new Acceso();
+            acceso.Abrir();
+            List<SqlParameter> parametros = new List<SqlParameter>();
+            parametros.Add(acceso.CrearParameter("@usuario_id", usuario.Id));
+            parametros.Add(acceso.CrearParameter("@nombre", usuario.Nombre));
+            parametros.Add(acceso.CrearParameter("@apellido", usuario.Apellido));
+            parametros.Add(acceso.CrearParameter("@usuario", usuario.User));
+            parametros.Add(acceso.CrearParameter("@passhash", usuario.PasswordHash));
+            parametros.Add(acceso.CrearParameter("@salt", usuario.Salt));
+            parametros.Add(acceso.CrearParameter("@idioma_id", 1));
+            parametros.Add(acceso.CrearParameter("@usuario_actual_id", modificador.Id));
+            int res = acceso.Escribir("AltaEnHistorial", parametros);
+            acceso.Cerrar();
+            return res;
+        }
+
         public int AgregarIntento(Usuario obj)
         {
             acceso = new Acceso();

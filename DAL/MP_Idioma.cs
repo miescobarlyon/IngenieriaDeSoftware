@@ -22,7 +22,15 @@ namespace DAL
 
         public override int Modificar(Idioma obj)
         {
-            throw new NotImplementedException();
+            acceso = new Acceso();
+            acceso.Abrir();
+            List<SqlParameter> parametros = new List<SqlParameter>();
+            parametros.Add(acceso.CrearParameter("@idIdioma", obj.Id));
+            parametros.Add(acceso.CrearParameter("@nombre", obj.Nombre));
+            parametros.Add(acceso.CrearParameter("@codigo", obj.Codigo));
+            int res = acceso.Escribir("EditarIdioma", parametros);
+            acceso.Cerrar();
+            return res;
         }
 
         public override int Eliminar(Idioma obj)

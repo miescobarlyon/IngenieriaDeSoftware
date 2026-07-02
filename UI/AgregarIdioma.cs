@@ -91,10 +91,9 @@ namespace UI
 
         private void CargarIdiomasExistentes()
         {
-            listBoxIdiomas.Items.Clear();
-            var idiomas = BLL.IdiomaService.GetInstance().ListarIdiomas();
-            foreach (var idioma in idiomas)
-                listBoxIdiomas.Items.Add($"{idioma.Nombre}  ({idioma.Codigo})");
+            listBoxIdiomas.DataSource = null;
+            List<BE.Idioma> idiomas = BLL.IdiomaService.GetInstance().ListarIdiomas();
+            listBoxIdiomas.DataSource = idiomas;
         }
 
         private const string SUFIJO_DEFAULT = " *";   // marca placeholder para la demo
@@ -115,27 +114,60 @@ namespace UI
 
             try
             {
-                var nuevoIdioma = BLL.IdiomaService.GetInstance().AgregarIdioma(
-                    textBoxNombre.Text.Trim(),
-                    textBoxCodigo.Text.Trim()
+                var idiomas = BLL.IdiomaService.GetInstance().ListarIdiomas();
+                bool codigoExiste = idiomas.Exists(i =>
+                i.Codigo.Equals(textBoxCodigo.Text.Trim(),
+                                StringComparison.OrdinalIgnoreCase));
+
+                BE.Idioma idiomaAGuardar = new BE.Idioma();
+
+                if (codigoExiste)
+                {
+                    idiomaAGuardar = BLL.IdiomaService.GetInstance().ListarIdiomas()
+                        .FirstOrDefault(i => i.Codigo.Equals(textBoxCodigo.Text.Trim(), StringComparison.OrdinalIgnoreCase));
+                }
+
+                idiomaAGuardar.Nombre = textBoxNombre.Text.Trim();
+                idiomaAGuardar.Codigo = textBoxCodigo.Text.Trim();
+
+                var nuevoIdioma = BLL.IdiomaService.GetInstance().Guardar(
+                    idiomaAGuardar
                 );
 
                 var traducciones = new List<Traduccion>();
+                var existentes = BLL.IdiomaService.GetInstance()
+                    .ListarTraducciones(nuevoIdioma.Id);
+
                 foreach (DataGridViewRow row in dataGridViewTraducciones.Rows)
                 {
                     if (row.IsNewRow) continue;
+
                     string texto = row.Cells["Traduccion"].Value?.ToString()?.Trim();
                     if (string.IsNullOrEmpty(texto)) continue;
 
-                    traducciones.Add(new Traduccion
+                    string clave = row.Cells["Clave"].Value.ToString();
+
+                    bool existe = existentes.Any(t => t.Clave == clave);
+
+                    if (!existe)
                     {
-                        Clave = row.Cells["Clave"].Value.ToString(),
-                        IdiomaId = nuevoIdioma.Id,
-                        Texto = texto
-                    });
+                        traducciones.Add(new Traduccion
+                        {
+                            IdiomaId = nuevoIdioma.Id,
+                            Clave = clave,
+                            Texto = texto
+                        });
+                    }
+                    else
+                    {
+                        var traduccion = existentes.First(t => t.Clave == clave);
+                        traduccion.Texto = texto;
+
+                        traducciones.Add(traduccion);
+                    }
                 }
 
-                BLL.IdiomaService.GetInstance().AgregarTraducciones(traducciones);
+                BLL.IdiomaService.GetInstance().Guardar(traducciones);
 
                 MessageBox.Show(
                     $"Idioma '{nuevoIdioma.Nombre}' agregado con " +
@@ -148,6 +180,7 @@ namespace UI
                 LimpiarFormulario();
                 CargarTraduccionesReferencia();
 
+                BLL.IdiomaService.GetInstance().CambiarIdioma(nuevoIdioma.Id);
             }
             catch (Exception ex)
             {
@@ -175,20 +208,6 @@ namespace UI
             {
                 errorManager.ManejarError(
                     "El código del idioma no puede estar vacío.",
-                    EnumError.Advertencia);
-                textBoxCodigo.Focus();
-                return false;
-            }
-
-            var idiomas = BLL.IdiomaService.GetInstance().ListarIdiomas();
-            bool codigoExiste = idiomas.Exists(i =>
-                i.Codigo.Equals(textBoxCodigo.Text.Trim(),
-                                StringComparison.OrdinalIgnoreCase));
-
-            if (codigoExiste)
-            {
-                errorManager.ManejarError(
-                    $"Ya existe un idioma con el código '{textBoxCodigo.Text.Trim()}'.",
                     EnumError.Advertencia);
                 textBoxCodigo.Focus();
                 return false;
@@ -262,6 +281,41 @@ namespace UI
                 errorManager.OnOcurrioError -= ErrorManager_OnOcurrioError;
             }
             base.Dispose(disposing);
+        }
+
+        private void listBoxIdiomas_SelectedValueChanged(object sender, EventArgs e)
+        {
+            if (listBoxIdiomas.SelectedItem != null)
+            {
+                BE.Idioma idioma = listBoxIdiomas.SelectedItem as BE.Idioma;
+
+                textBoxCodigo.Text = idioma.Codigo;
+                textBoxNombre.Text = idioma.Nombre;
+
+                dataGridViewTraducciones.Rows.Clear();
+
+                var referencia = BLL.IdiomaService.GetInstance()
+                                    .ListarTraducciones(IDIOMA_REFERENCIA_ID);
+
+                var traducciones = BLL.IdiomaService.GetInstance()
+                                    .ListarTraducciones(idioma.Id);
+
+                var diccionario = traducciones
+                    .GroupBy(t => t.Clave)
+                    .ToDictionary(g => g.Key, g => g.First().Texto);
+
+                foreach (var t in referencia)
+                {
+                    string traduccion = diccionario.ContainsKey(t.Clave)
+                        ? diccionario[t.Clave]
+                        : string.Empty;
+
+                    dataGridViewTraducciones.Rows.Add(
+                        t.Clave,
+                        t.Texto,
+                        traduccion);
+                }
+            }
         }
     }
 }
